@@ -1105,9 +1105,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 779359651}
     - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+    - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
       propertyPath: loadingPanel
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
+      propertyPath: characterPrefab
+      value: 
+      objectReference: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
     m_RemovedComponents:
     - {fileID: 3783187611946142028, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
     m_RemovedGameObjects: []
