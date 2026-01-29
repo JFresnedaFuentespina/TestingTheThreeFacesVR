@@ -10,6 +10,7 @@ public class Level3Generator : MonoBehaviour
     void Start()
     {
         LevelGenerator levelGenerator = GetComponent<LevelGenerator>();
+        SpawnKeyInRoom keySpawner = GetComponent<SpawnKeyInRoom>();
 
         if (levelGenerator == null)
         {
@@ -19,6 +20,7 @@ public class Level3Generator : MonoBehaviour
 
         levelGenerator.GenerateLevel(levelWidth, 7, 3); // Genera el mapa lógico
         int totalRooms = levelGenerator.SpawnRooms(); // Genera las habitaciones físicas
+        StartCoroutine(keySpawner.WaitAndChooseRandomRoom());
 
         Debug.Log($"Nivel 3 generado con {totalRooms} habitaciones normales + Boss + Tesoro");
     }

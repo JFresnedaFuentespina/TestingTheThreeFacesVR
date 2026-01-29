@@ -7,10 +7,26 @@ public class MeleeAttackHit : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float attackDamage;
-    // public float pushForce = 10f;
+    public bool appliesPoison = false;
+    public PlayerAttack playerAttack;
+
+    void Start()
+    {
+        playerAttack = FindAnyObjectByType<PlayerAttack>();
+        if (playerAttack != null)
+        {
+            attackDamage = playerAttack.attackDamage;
+            appliesPoison = playerAttack.appliesPoison;
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         EnemyLife enemyLife = other.GetComponent<EnemyLife>();
+        appliesPoison = playerAttack.appliesPoison;
+        if (appliesPoison && enemyLife != null)
+        {
+            enemyLife.poisoned = true;
+        }
         if (other.CompareTag("BossCara"))
         {
             CaraAI caraAi = other.GetComponent<CaraAI>();

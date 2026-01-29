@@ -187,8 +187,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.722396, z: 1}
-  m_Center: {x: -0, y: 1.4534794, z: 0.00000034653647}
+  m_Size: {x: 1, y: 2.7223961, z: 0.73329157}
+  m_Center: {x: 0.000000015140042, y: 1.4534794, z: -0.13335389}
 --- !u!114 &7143435724366839193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +205,8 @@ MonoBehaviour:
   torches: []
   audioManagerGO: {fileID: 0}
   audioManager: {fileID: 0}
+  camera1: {fileID: 0}
+  cameraCenital: {fileID: 0}
 --- !u!1 &5845587398265535077
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 // AttackHit.cs
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,24 +9,31 @@ public class FireAttackHit : MonoBehaviour
     public float attackDamage = 5;
 
     public float fireballPushForce = 1f;
+    public bool appliesPoison = false;
+    public PlayerAttack playerAttack;
 
     void Start()
     {
-        PlayerAttack playerAttack = FindAnyObjectByType<PlayerAttack>();
+        playerAttack = FindAnyObjectByType<PlayerAttack>();
         if (playerAttack != null)
         {
             attackDamage = playerAttack.attackDamage;
+            appliesPoison = playerAttack.appliesPoison;
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
+        appliesPoison = playerAttack.appliesPoison;
         float destroyDelay = 0f;
         if (gameObject.CompareTag("Thunderbolt"))
         {
             destroyDelay = 0.5f;
         }
         EnemyLife enemyLife = other.GetComponent<EnemyLife>();
+        if (appliesPoison && enemyLife != null)
+        {
+            enemyLife.poisoned = true;
+        }
         if (other.CompareTag("BossCara"))
         {
             CaraAI caraAi = other.GetComponent<CaraAI>();
@@ -34,7 +42,7 @@ public class FireAttackHit : MonoBehaviour
                 enemyLife.Damage(attackDamage);
                 caraAi.ReactToHit();
                 enemyLife.UpdateIsAlive();
-                if(!enemyLife.GetIsAlive())
+                if (!enemyLife.GetIsAlive())
                 {
                     caraAi.ReactToDeath();
                 }
@@ -60,7 +68,7 @@ public class FireAttackHit : MonoBehaviour
                 enemyLife.Damage(attackDamage);
                 cantoMovement.ReactToHit();
                 enemyLife.UpdateIsAlive();
-                if(!enemyLife.GetIsAlive())
+                if (!enemyLife.GetIsAlive())
                 {
                     cantoMovement.ReactToDeath();
                 }

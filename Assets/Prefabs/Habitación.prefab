@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3151105535327309648}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.39, y: 5, z: -11.3}
+  m_LocalPosition: {x: -1.5, y: 5, z: -8.7}
   m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -607,6 +607,7 @@ GameObject:
   - component: {fileID: -6379763231414335216}
   - component: {fileID: 4644749237365189746}
   - component: {fileID: 7997259513853481830}
+  - component: {fileID: 6809966898943257790}
   m_Layer: 0
   m_Name: "Habitaci\xF3n"
   m_TagString: Untagged
@@ -709,6 +710,20 @@ MonoBehaviour:
   wallRight: {fileID: 3151105535959561369}
   wallFront: {fileID: 3151105535959561369}
   spawnMargin: 2
+--- !u!114 &6809966898943257790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151105536900344459}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c51ab04011f0c41b44cf5689204157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnRandomKeyInLevel
+  keyPrefab: {fileID: 2253393103804301607, guid: e360d8d16d87ca544b56a603ea831f2f, type: 3}
+  suelo: {fileID: 0}
 --- !u!1 &3171065194170000403
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,7 +917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5873194953621681101
 Transform:
   m_ObjectHideFlags: 0

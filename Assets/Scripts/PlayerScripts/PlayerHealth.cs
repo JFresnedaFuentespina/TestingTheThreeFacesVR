@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +10,10 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 3f;
+    public float extraHealth = 0f;
     public float minHealth = 0f;
-    public float healthPoints = 3;
+    public float healthPoints = 3f;
+    public float extraHealthPoints = 0f;
     [Header("Health UI")]
     public GameObject heartContainer;
     public Sprite fullHeartSprite;
@@ -20,21 +23,33 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip hitAudioClip;
     public AudioSource audioSource;
     private List<Image> hearts = new List<Image>();
+    private List<Image> extraHearts = new List<Image>();
+    public Sprite extraHeartSprite;
+    public Sprite halfExtraHeart;
 
     public GameObject hud;
     private List<GameObject> corazones = new List<GameObject>();
     public bool canDie = false;
     private Rigidbody rb;
-    private Animator animator;
+    private Animator animatorEsqueleto;
+    private Animator animatorFantasma;
     private RotateCharacterToMouse rotateCharacterToMouse;
     private RotateCharacterWithJoystick rotateCharacterWithJoystick;
     private PlayerBehaviour playerBehaviour;
+    private ChangeCharacter changeCharacter;
+
+    private GameObject endgameManagerGO;
+    private EndgameManager endgameManager;
+
+    private GameObject lastHittedBy;
 
     void OnDestroy()
     {
-        PickupItem.OnFullyHealedEvent -= FullHeal;
-        PickupItem.OnHealthIncreasedEvent -= IncreaseMaxHealth;
-        PickupItem.OnHealthDecreasedEvent -= DecreaseMaxHealth;
+        CantoDeathBehaviour.OnVictoryEvent -= BlockPlayerControl;
+        HeartItemPickupBehaviour.OnHealthIncreasedEvent -= IncreaseMaxHealth;
+        SkullItemPickupBehaviour.OnHealthDecreasedEvent -= DecreaseMaxHealth;
+        HeartItemPickupBehaviour.OnFullyHealedEvent -= FullHeal;
+        BluePillItemPickupBehaviour.OnSoulHeartEvent -= AddExtraHeart;
     }
 
     void Start()
@@ -43,10 +58,14 @@ public class PlayerHealth : MonoBehaviour
         rotateCharacterToMouse = GetComponent<RotateCharacterToMouse>();
         rotateCharacterWithJoystick = GetComponent<RotateCharacterWithJoystick>();
         playerBehaviour = GetComponent<PlayerBehaviour>();
+        changeCharacter = GetComponent<ChangeCharacter>();
+        endgameManagerGO = GameObject.Find("EndgameManagerGO");
 
         Transform esqueletoHijo = transform.Find("Esqueleto");
-        animator = esqueletoHijo != null ? esqueletoHijo.GetComponent<Animator>() : null;
+        animatorEsqueleto = esqueletoHijo != null ? esqueletoHijo.GetComponent<Animator>() : null;
 
+        Transform ghostHijo = transform.Find("Ghost");
+        animatorFantasma = ghostHijo != null ? ghostHijo.GetComponent<Animator>() : null;
         // Cargar JSON
         string path = Application.persistentDataPath + "/player.json";
         bool loadedFromFile = false;
@@ -61,6 +80,7 @@ public class PlayerHealth : MonoBehaviour
                 {
                     maxHealth = data.maxHealth;
                     healthPoints = Mathf.Clamp(data.health, 0f, data.maxHealth);
+                    extraHealthPoints = data.extraHealth;
                     loadedFromFile = true;
                 }
             }
@@ -103,15 +123,21 @@ public class PlayerHealth : MonoBehaviour
 
         InitializeHearts();
         RefreshHearts();
+        if (extraHealthPoints > 0)
+        {
+            RefreshExtraHearts();
+        }
         Invoke(nameof(EnableDeath), 0.1f);
         SubscribeToPickupEvents();
     }
 
     public void SubscribeToPickupEvents()
     {
-        PickupItem.OnFullyHealedEvent += FullHeal;
-        PickupItem.OnHealthIncreasedEvent += IncreaseMaxHealth;
-        PickupItem.OnHealthDecreasedEvent += DecreaseMaxHealth;
+        CantoDeathBehaviour.OnVictoryEvent += BlockPlayerControl;
+        HeartItemPickupBehaviour.OnHealthIncreasedEvent += IncreaseMaxHealth;
+        SkullItemPickupBehaviour.OnHealthDecreasedEvent += DecreaseMaxHealth;
+        HeartItemPickupBehaviour.OnFullyHealedEvent += FullHeal;
+        BluePillItemPickupBehaviour.OnSoulHeartEvent += AddExtraHeart;
     }
 
     void EnableDeath() => canDie = true;
@@ -124,6 +150,7 @@ public class PlayerHealth : MonoBehaviour
             || other.gameObject.CompareTag("EnemyProjectile")
             )
         {
+            lastHittedBy = other.gameObject;
             Damage();
         }
     }
@@ -131,7 +158,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (!canDie || healthPoints > 0) return;
 
-        animator.SetTrigger("Death");
+        if (!changeCharacter.showingGhost)
+            animatorEsqueleto.SetTrigger("Death");
+        else
+            animatorFantasma.SetTrigger("Death");
 
         // Bloquear movimiento y rotación
         BlockPlayerControl();
@@ -141,11 +171,34 @@ public class PlayerHealth : MonoBehaviour
         if (File.Exists(path))
             File.Delete(path);
 
-        // Volver al menú tras delay
-        StartCoroutine(DeathAndReturnToMenu());
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (Collider col in colliders)
+            col.enabled = false;
+
+        // ⬇️ NO mostramos el panel aún
+        StartCoroutine(WaitAndShowEndgame());
     }
 
-    void BlockPlayerControl()
+    private IEnumerator WaitAndShowEndgame()
+    {
+        Animator currentAnimator = changeCharacter.showingGhost
+            ? animatorFantasma
+            : animatorEsqueleto;
+
+        float animDuration = currentAnimator
+            .GetCurrentAnimatorStateInfo(0).length;
+
+        yield return new WaitForSeconds(animDuration + 2f);
+
+        endgameManager = endgameManagerGO.GetComponent<EndgameManager>();
+        if (endgameManager != null)
+        {
+            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
+            endgameManager.ShowEndgameDeath(lastHittedBy, playerInventory.inventory);
+        }
+    }
+
+    public void BlockPlayerControl()
     {
         if (playerBehaviour != null)
             playerBehaviour.enabled = false;
@@ -165,7 +218,7 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator DeathAndReturnToMenu()
     {
-        float deathDuration = animator.GetCurrentAnimatorStateInfo(0).length;
+        float deathDuration = animatorEsqueleto.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(deathDuration + 5f);
         SceneManager.LoadScene("MainMenu");
     }
@@ -196,6 +249,7 @@ public class PlayerHealth : MonoBehaviour
     public void UpdateHUD(bool checkDeath = true)
     {
         RefreshHearts();
+        RefreshExtraHearts();
 
         if (checkDeath)
             CheckDeath();
@@ -222,17 +276,47 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+
+    private void RefreshExtraHearts()
+    {
+        float remainingExtraHp = extraHealthPoints;
+        for (int i = 0; i < extraHearts.Count; i++)
+        {
+            if (remainingExtraHp >= 1f)
+            {
+                extraHearts[i].enabled = true;
+                remainingExtraHp -= 1f;
+            }
+
+            else
+            {
+                extraHearts[i].enabled = false;
+            }
+        }
+    }
+
+
     public void RebuildHearts()
     {
         InitializeHearts();
         RefreshHearts();
     }
 
-    public void Damage()
+
+    public void Damage(float amount = 0.5f)
     {
         audioSource.PlayOneShot(hitAudioClip);
-        healthPoints -= 0.5f;
-        healthPoints = Mathf.Clamp(healthPoints, minHealth, maxHealth);
+
+        if (extraHealthPoints > 0)
+        {
+            extraHealthPoints -= 1f;
+            extraHealthPoints = Mathf.Clamp(extraHealthPoints, 0f, extraHealth);
+        }
+        else if (healthPoints > 0)
+        {
+            healthPoints -= amount;
+            healthPoints = Mathf.Clamp(healthPoints, 0f, maxHealth);
+        }
         UpdateHUD();
         BlinkBloodFrame();
     }
@@ -301,6 +385,28 @@ public class PlayerHealth : MonoBehaviour
     {
         maxHealth -= amount;
         RebuildHearts();
+    }
+
+    public void AddExtraHeart(float amount)
+    {
+        extraHealth += amount;
+        extraHealthPoints += amount; // agregamos vida extra real
+
+        int heartsToAdd = Mathf.RoundToInt(amount);
+        for (int i = 0; i < heartsToAdd; i++)
+        {
+            GameObject newExtraHeart = new GameObject(
+                "ExtraHeart_" + extraHearts.Count,
+                typeof(Image)
+            );
+            newExtraHeart.transform.SetParent(heartContainer.transform, false);
+            Image img = newExtraHeart.GetComponent<Image>();
+            img.sprite = extraHeartSprite;
+            img.SetNativeSize();
+            extraHearts.Add(img);
+        }
+
+        RefreshExtraHearts();
     }
 
 }

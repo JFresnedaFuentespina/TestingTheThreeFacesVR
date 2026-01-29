@@ -784,6 +784,7 @@ GameObject:
   - component: {fileID: 2761546271504325663}
   - component: {fileID: 2160824029858161427}
   - component: {fileID: 1309259542819171598}
+  - component: {fileID: 1571705298156835563}
   m_Layer: 9
   m_Name: Base_mesh_Skin1
   m_TagString: BossCanto
@@ -847,6 +848,13 @@ MonoBehaviour:
   totalHp: 100
   currentHp: 100
   healthBar: {fileID: 7482293536419660152}
+  hitAudioClip: {fileID: 0}
+  defaultAudioClip: {fileID: 0}
+  deathAudioClip: {fileID: 0}
+  audioSource: {fileID: 0}
+  poisoned: 0
+  enemiesDeathCounterGO: {fileID: 0}
+  enemiesDeathCounter: {fileID: 0}
 --- !u!114 &6903710297839786695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,6 +927,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1571705298156835563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369049315509284897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1371d5f8fd8034ebc15c5df0b62d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CantoDeathBehaviour
 --- !u!1 &2399109204944608482
 GameObject:
   m_ObjectHideFlags: 0

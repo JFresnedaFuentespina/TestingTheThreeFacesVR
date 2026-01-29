@@ -18,24 +18,6 @@ public class PickupItem : MonoBehaviour
     private bool hudReady = false;
 
     // Eventos
-    public delegate void OnPlayerAttack(string item);
-    public static event OnPlayerAttack OnPlayerAttackEvent;
-
-    public delegate void OnPlayerSpeed(float amount);
-    public static event OnPlayerSpeed OnPlayerSpeedEvent;
-
-    public delegate void OnHealthIncreased(float amunt);
-    public static event OnHealthIncreased OnHealthIncreasedEvent;
-
-    public delegate void OnHealthDecreased(float amount);
-    public static event OnHealthDecreased OnHealthDecreasedEvent;
-
-    public delegate void OnFullyHealed();
-    public static event OnFullyHealed OnFullyHealedEvent;
-
-    public delegate void OnNewChangeCharacterAction(string action);
-    public static event OnNewChangeCharacterAction OnNewChangeCharacterActionEvent;
-
     public delegate void OnAddItemToInventory(string id, Sprite icon);
     public static event OnAddItemToInventory OnAddItemToInventoryEvent;
 
@@ -99,114 +81,55 @@ public class PickupItem : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Pedestal") || collision.transform.childCount == 0) return;
+        if (!collision.gameObject.CompareTag("Pedestal") &&
+            !collision.gameObject.CompareTag("Key"))
+            return;
 
-        Transform child = collision.transform.GetChild(0);
-        ItemIcon iconComp = child.GetComponent<ItemIcon>();
+        GameObject itemToPickup;
+
+        // Caso Key
+        if (collision.gameObject.CompareTag("Key"))
+        {
+            itemToPickup = collision.gameObject;
+        }
+        // Caso Pedestal
+        else
+        {
+            if (collision.transform.childCount == 0)
+                return;
+
+            itemToPickup = collision.transform.GetChild(0).gameObject;
+        }
+
+        ItemIcon iconComp = itemToPickup.GetComponent<ItemIcon>();
         if (iconComp == null)
         {
-            Debug.LogWarning("El objeto en el pedestal no tiene ItemIcon");
+            Debug.LogWarning("El objeto no tiene ItemIcon");
             return;
         }
 
-        // Añadir al inventario y HUD
-        if (OnAddItemToInventoryEvent != null)
-        {
-            OnAddItemToInventoryEvent(iconComp.itemID, iconComp.icon);
-        }
+        // Añadir al inventario
+        OnAddItemToInventoryEvent?.Invoke(iconComp.itemID, iconComp.icon);
         AddItemToHUD(iconComp.icon, iconComp.itemID);
 
-        // Aplicar efectos del item
-        ApplyItemEffects(child);
+        // Aplicar efectos
+        ApplyItemEffects(itemToPickup);
 
-        Destroy(child.gameObject);
+        Destroy(itemToPickup);
     }
 
-    private void ApplyItemEffects(Transform item)
-    {
-        string msg = "";
-        if (item.CompareTag("ThunderItem"))
-        {
-            if (OnPlayerAttackEvent != null)
-                OnPlayerAttackEvent("Thunder");
-            msg = "¡Disparo eléctrico!";
-        }
-        else if (item.CompareTag("IncreaseSpeedItem"))
-        {
-            if (OnPlayerSpeedEvent != null)
-                OnPlayerSpeedEvent(0.5f);
-            msg = "¡Velocidad aumentada!";
-        }
-        else if (item.CompareTag("IncreaseAttackDamageItem"))
-        {
-            if (OnPlayerAttackEvent != null)
-                OnPlayerAttackEvent("IncreaseAttackDamageItem");
-            msg = "¡Daño de ataque aumentado!";
-        }
-        else if (item.CompareTag("IncreaseAttackSpeedItem"))
-        {
-            if (OnPlayerAttackEvent != null)
-                OnPlayerAttackEvent("IncreaseAttackSpeedItem");
-            msg = "¡Velocidad de ataque aumentada!";
-        }
-        else if (item.CompareTag("Hourglass"))
-        {
-            if (OnNewChangeCharacterActionEvent != null)
-                OnNewChangeCharacterActionEvent("Hourglass");
-            msg = "Ralentiza a los enemigos al girar la moneda";
-        }
-        else if (item.CompareTag("Star"))
-        {
-            if (OnPlayerSpeedEvent != null)
-                OnPlayerSpeedEvent(1.0f);
-            if (OnPlayerAttackEvent != null)
-                OnPlayerAttackEvent("Star");
-            msg = "¡Mejoras en todas las estadísticas!";
-        }
-        else if (item.CompareTag("BluePill")) // Corazón extra azul (temporal)
-        {
-            msg = "¡Pastilla azul recogida!";
-        }
-        else if (item.CompareTag("Bomb")) // Explosión alrededor del jugador que daña a los enemigos al girar la moneda
-        {
-            if (OnNewChangeCharacterActionEvent != null)
-                OnNewChangeCharacterActionEvent("Bomb");
-            msg = "¡Bomba recogida!";
-        }
-        else if (item.CompareTag("Key")) // Llave para abrir la puerta final
-        {
-            msg = "¡Llave recogida!";
-        }
-        else if (item.CompareTag("GreenPotion")) // Curación de medio corazón
-        {
-            msg = "¡Poción verde recogida!";
-        }
-        else if (item.CompareTag("RedVial")) // Curación de un corazón
-        {
-            msg = "¡Vial rojo recogido!";
-        }
-        else if (item.CompareTag("Heart")) // Vida extra
-        {
-            msg = "¡Vida extra!";
-            if (OnHealthIncreasedEvent != null)
-                OnHealthIncreasedEvent(1);
-            if (OnFullyHealedEvent != null)
-                OnFullyHealedEvent();
 
-        }
-        else if (item.CompareTag("Shield")) // Escudo que bloquea algunos ataques
+    private void ApplyItemEffects(GameObject item)
+    {
+        ItemPickupBehaviour pickup = item.GetComponent<ItemPickupBehaviour>();
+        if (pickup != null)
         {
-            msg = "¡Escudo recogido!";
+            ShowMessage(pickup.ApplyItemEffects());
         }
-        else if (item.CompareTag("Skull")) // Calavera que aumenta el daño pero reduce la vida
+        else
         {
-            msg = "¡Calavera recogida!";
-            if (OnPlayerAttackEvent != null)
-                OnPlayerAttackEvent("Skull");
-            if (OnHealthDecreasedEvent != null)
-                OnHealthDecreasedEvent(1);
+            Debug.LogWarning("ItemPickupBehaviour NOT FOUND");
         }
-        ShowMessage(msg);
     }
 
     private void AddItemToHUD(Sprite icon, string itemID)

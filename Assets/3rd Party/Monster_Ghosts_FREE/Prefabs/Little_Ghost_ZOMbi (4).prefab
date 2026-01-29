@@ -292,7 +292,8 @@ MonoBehaviour:
   hitAudioClip: {fileID: 8300000, guid: 22d64eb68cc7cdb4fb8bf55d3a6f8d73, type: 3}
   defaultAudioClip: {fileID: 8300000, guid: fd44569746ffd904b88d08af3b28f50e, type: 3}
   deathAudioClip: {fileID: 8300000, guid: bd73f8a16867abb44af13bdc6b69aa8b, type: 3}
-  audioSource: {fileID: -7343626518015194344, guid: 68a45b7c7de96f84bb3192731ba3a68c, type: 3}
+  audioSource: {fileID: 1874212437731704862}
+  poisoned: 0
 --- !u!114 &-2447555229499151269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   projectilePrefab: {fileID: 5712219488875869251, guid: 533679cca1de17d4c8d33b0d8030e1fc, type: 3}
+  enemyLife: {fileID: 0}
   attackInterval: 2
   projectileSpeed: 2
 --- !u!82 &1874212437731704862

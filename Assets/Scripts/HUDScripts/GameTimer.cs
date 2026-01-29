@@ -7,11 +7,11 @@ using System.Collections;
 public class GameTimer : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
-
     private float elapsedTime = 0f;
     private bool isRunning = false;
     private Coroutine timerCoroutine;
-
+    public float min;
+    public float sec;
     private string timerPath;
 
     void Awake()
@@ -54,8 +54,8 @@ public class GameTimer : MonoBehaviour
 
     private void UpdateTimerText()
     {
-        int min = Mathf.FloorToInt(elapsedTime / 60f);
-        int sec = Mathf.FloorToInt(elapsedTime % 60f);
+        min = Mathf.FloorToInt(elapsedTime / 60f);
+        sec = Mathf.FloorToInt(elapsedTime % 60f);
         timerText.text = $"Timer: {min:00}:{sec:00}";
     }
 

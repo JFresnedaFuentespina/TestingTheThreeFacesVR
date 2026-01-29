@@ -53,7 +53,7 @@ public class EnemyMove : MonoBehaviour
 
     public void Jump(float jumpForce = 5f)
     {
-        if (rb == null) { Debug.Log("NULL"); return; }
+        if (rb == null) { return; }
 
         if (Mathf.Abs(rb.linearVelocity.y) < 0.1f)
         {

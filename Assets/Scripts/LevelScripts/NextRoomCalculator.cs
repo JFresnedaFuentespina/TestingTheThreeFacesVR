@@ -17,7 +17,7 @@ public class NextRoomCalculator : MonoBehaviour
     {
 
         level = FindAnyObjectByType<LevelGenerator>();
-        audioManagerGO = GameObject.Find("Audio Source");
+        audioManagerGO = GameObject.Find("Music");
         audioManager = audioManagerGO.GetComponent<AudioManager>();
         audioManager.level = level.levelWidth;
         if (audioManager == null)
@@ -51,9 +51,18 @@ public class NextRoomCalculator : MonoBehaviour
             return;
         }
 
-        if (nextRoomObj.GetComponent<BossRoom>() != null && audioManager != null)
+        if (nextRoomObj.GetComponent<BossRoom>() != null)
         {
-            audioManager.PlayBossMusic();
+            if (!PlayerHasKey())
+            {
+                Debug.Log("No tienes la llave para entrar a la Boss Room");
+
+                // Rehabilitar colisión y salir
+                StartCoroutine(ReenableCollisionBetween(doorCollider, other, 0.1f));
+                enabledTemporarily = false;
+                return;
+            }
+            audioManager?.PlayBossMusic();
         }
 
         // Desactivar puertas de la habitación de destino temporalmente
@@ -68,6 +77,14 @@ public class NextRoomCalculator : MonoBehaviour
         MoveCamera(targetPos);
 
         StartCoroutine(ReenableCollisionBetween(doorCollider, other, 0.5f));
+    }
+
+    private bool PlayerHasKey()
+    {
+        PlayerInventory playerInventory = FindFirstObjectByType<PlayerInventory>();
+        if (playerInventory == null || playerInventory.inventory == null)
+            return false;
+        return playerInventory.inventory.items.Exists(item => item.itemID == "Key");
     }
 
     private IEnumerator ReenableCollisionBetween(Collider a, Collider b, float delay)
@@ -229,11 +246,13 @@ public class NextRoomCalculator : MonoBehaviour
 
             var generator = roomObj.GetComponentInChildren<EnemiesGenerator>();
             var doorsEnabler = roomObj.GetComponentInParent<DoorsEnabler>();
+            var keyGenerator = level.GetComponentInChildren<SpawnKeyInRoom>();
 
             if (generator != null && doorsEnabler != null)
             {
                 DisableDoorsInRoom(roomObj);
                 generator.GenerateEnemiesInRoom(roomPos);
+                keyGenerator?.GenerateKey(roomPos);
                 doorsEnabler.StartCheckEnemies();
             }
         }

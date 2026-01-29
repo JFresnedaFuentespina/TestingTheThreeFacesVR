@@ -10,7 +10,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float currentSpeed;
     private Rigidbody rb;
 
-    private Animator animator;
+    private Animator animatorEsqueleto;
+    private Animator animatorFantasma;
     private ChangeCharacter changeCharacter;
 
     private Vector3 lastPosition;
@@ -24,7 +25,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         OnSpeedStatsRequestedEvent += SendCurrentStats;
     }
-    void Oestroy()
+    void OnDestroy()
     {
         OnSpeedStatsRequestedEvent -= SendCurrentStats;
     }
@@ -43,12 +44,28 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Obtener el Animator SOLO de ese hijo
-        animator = esqueletoHijo.GetComponent<Animator>();
-        if (animator == null)
+        animatorEsqueleto = esqueletoHijo.GetComponent<Animator>();
+        if (animatorEsqueleto == null)
         {
             Debug.LogError("El hijo 'Esqueleto' existe, pero no tiene Animator");
             return;
         }
+
+        Transform ghostHijo = transform.Find("Ghost");
+        if (ghostHijo == null)
+        {
+            Debug.LogError("No se encontró el hijo llamado 'Ghost'");
+            return;
+        }
+
+        // Obtener el Animator SOLO de ese hijo
+        animatorFantasma = ghostHijo.GetComponent<Animator>();
+        if (animatorFantasma == null)
+        {
+            Debug.LogError("El hijo 'Ghost' existe, pero no tiene Animator");
+            return;
+        }
+
 
         // Load JSON stats
         string path = Application.persistentDataPath + "/player.json";
@@ -68,7 +85,9 @@ public class PlayerBehaviour : MonoBehaviour
     }
     public void SubscribeToPickupEvents()
     {
-        PickupItem.OnPlayerSpeedEvent += UpdateSpeed;
+        // PickupItem.OnPlayerSpeedEvent += UpdateSpeed;
+        IncreaseSpeedItemPickupBehaviour.OnPlayerSpeedEvent += UpdateSpeed;
+        StarItemPickupBehaviour.OnPlayerSpeedEvent += UpdateSpeed;
     }
 
     public void UpdateSpeed(float amount)
@@ -85,9 +104,9 @@ public class PlayerBehaviour : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (animator == null || rb == null) return;
+        if (animatorEsqueleto == null || rb == null) return;
 
-        animator.applyRootMotion = false;
+        animatorEsqueleto.applyRootMotion = false;
 
         float inputH = Input.GetAxis("Horizontal");
         float inputV = Input.GetAxis("Vertical");
@@ -103,13 +122,13 @@ public class PlayerBehaviour : MonoBehaviour
         currentSpeed = (rb.position - lastPosition).magnitude / Time.fixedDeltaTime;
         lastPosition = rb.position;
 
-        if (!changeCharacter.showingGhost)//! ANIMACIÓN CON LA VELOCIDAD DEL RIGIDBODY
+        if (!changeCharacter.showingGhost)
         {
-            animator.SetFloat("Speed", currentSpeed);
+            animatorEsqueleto.SetFloat("Speed", currentSpeed);
         }
         else
         {
-            animator.SetFloat("Speed", 0f);
+            animatorFantasma.SetFloat("Speed", currentSpeed);
         }
     }
 

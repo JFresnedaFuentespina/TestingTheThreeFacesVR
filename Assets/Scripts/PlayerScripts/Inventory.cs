@@ -18,4 +18,9 @@ public class Inventory : ScriptableObject
     {
         items.Clear();
     }
+
+    public void RemoveItem(string id)
+    {
+        items.RemoveAll(i => i.itemID == id);
+    }
 }

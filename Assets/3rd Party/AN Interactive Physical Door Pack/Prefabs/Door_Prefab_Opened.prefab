@@ -145,8 +145,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.1687937, z: 1}
-  m_Center: {x: 0, y: 1.0816524, z: 0.000000128943}
+  m_Size: {x: 1, y: 2.1687937, z: 0.6266372}
+  m_Center: {x: 0.000000003135097, y: 1.0816524, z: -0.03944852}
 --- !u!54 &946654940406701030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -186,6 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d71b71b2327c4a93734364bdd370d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NextRoomCalculator
+  enabledTemporarily: 0
+  torches: []
+  audioManagerGO: {fileID: 0}
+  audioManager: {fileID: 0}
+  camera1: {fileID: 0}
+  cameraCenital: {fileID: 0}
 --- !u!1 &5815388445836955371
 GameObject:
   m_ObjectHideFlags: 0

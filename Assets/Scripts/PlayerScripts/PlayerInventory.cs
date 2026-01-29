@@ -8,6 +8,8 @@ public class PlayerInventory : MonoBehaviour
     public delegate void OnInventoryItemsProvided(List<InventoryItem> items);
     public static event OnInventoryItemsProvided OnInventoryItemsProvidedEvent;
 
+    public static event System.Action<Inventory> OnInventoryReadyForVictory;
+
     void Awake()
     {
         if (inventory == null)
@@ -23,18 +25,22 @@ public class PlayerInventory : MonoBehaviour
 
     void OnDestroy()
     {
+        CantoDeathBehaviour.OnVictoryEvent -= HandleVictory;
         PickupItem.OnAddItemToInventoryEvent -= AddItem;
+        EndgameManager.OnResetGameData -= ResetInventory;
     }
 
     public void SubscribeToPickupEvents()
     {
+        CantoDeathBehaviour.OnVictoryEvent += HandleVictory;
         PickupItem.OnAddItemToInventoryEvent += AddItem;
+        EndgameManager.OnResetGameData += ResetInventory;
     }
 
     public static void RequestInventoryItems()
     {
         var instance = FindFirstObjectByType<PlayerInventory>();
-        if(instance == null || instance.inventory == null) return;
+        if (instance == null || instance.inventory == null) return;
 
         OnInventoryItemsProvidedEvent?.Invoke(instance.inventory.items);
     }
@@ -47,9 +53,23 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    public void RemoveItem(string id)
+    {
+        if (inventory != null)
+        {
+            inventory.RemoveItem(id);
+        }
+    }
+
     public void ResetInventory()
     {
         if (inventory != null)
             inventory.ResetInventory();
+    }
+
+    public void HandleVictory()
+    {
+        if (inventory == null) return;
+        OnInventoryReadyForVictory?.Invoke(inventory);
     }
 }

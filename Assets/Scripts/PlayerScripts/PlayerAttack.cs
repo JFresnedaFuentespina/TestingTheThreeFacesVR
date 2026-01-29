@@ -23,9 +23,11 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip swordSwingAudioClip;
     public AudioClip fireballAudioClip;
     private AudioSource audioSource;
-    private Animator animator;
+    private Animator animatorEsqueleto;
+    private Animator animatorFantasma;
 
     public GameObject swordGO;
+    public bool appliesPoison = false;
 
     public delegate void OnAttackStatsChanged(float damage, float interval);
     public static event OnAttackStatsChanged OnAttackStatsChangedEvent;
@@ -57,25 +59,14 @@ public class PlayerAttack : MonoBehaviour
             attackDamage = playerData.damage;
             isFireball = playerData.attackType == "Fireball";
             isThunder = playerData.attackType == "Thunder";
+            appliesPoison = playerData.appliesPoison;
         }
         changeCharacter = GetComponent<ChangeCharacter>();
-        // Asignar el Animator del hijo llamado "Esqueleto"
-        animator = FindEsqueletoAnimator(transform);
+        animatorEsqueleto = FindEsqueletoAnimator(transform);
+        animatorFantasma = FindGhostAnimator(transform);
         MeleeAttackHit weapon = this.gameObject.GetComponentInChildren<MeleeAttackHit>();
         weapon.attackDamage = attackDamage;
-        if (animator == null)
-        {
-            Debug.LogError("No se encontró el Animator dentro del hijo 'Esqueleto'");
-        }
-        else
-        {
-            Debug.Log("Animator correcto asignado para ataque: " + animator.gameObject.name);
-        }
         swordGO = GameObject.Find("Sword");
-        if (swordGO == null)
-        {
-            Debug.LogError("No se encontró el GameObject 'Sword'");
-        }
     }
 
     public static void RequestAttackStats()
@@ -85,10 +76,14 @@ public class PlayerAttack : MonoBehaviour
 
     public void SubscribeToPickupEvents()
     {
-        PickupItem.OnPlayerAttackEvent += DecideChanges;
+        ThunderPickupItemBehaviour.OnPlayerAttackEvent += DecideChanges;
+        IncreaseAttackDmgItemPickupBehaviour.OnPlayerAttackEvent += DecideChanges;
+        StarItemPickupBehaviour.OnPlayerAttackEvent += DecideChanges;
+        GreenPotionItemPickupBehaviour.OnPlayerAttackEvent += DecideChanges;
+        SkullItemPickupBehaviour.OnPlayerAttackEvent += DecideChanges;
     }
 
-    // Buscar el hijo llamado "Esqueleto" y devolver su Animator
+    // Buscar el animator del esqueleto
     Animator FindEsqueletoAnimator(Transform raiz)
     {
         foreach (Transform t in raiz)
@@ -99,6 +94,22 @@ public class PlayerAttack : MonoBehaviour
             }
 
             Animator encontrado = FindEsqueletoAnimator(t);
+            if (encontrado != null)
+                return encontrado;
+        }
+        return null;
+    }
+    // Buscar el animator del fantasma
+    Animator FindGhostAnimator(Transform raiz)
+    {
+        foreach (Transform t in raiz)
+        {
+            if (t.name == "Ghost")
+            {
+                return t.GetComponent<Animator>();
+            }
+
+            Animator encontrado = FindGhostAnimator(t);
             if (encontrado != null)
                 return encontrado;
         }
@@ -128,6 +139,7 @@ public class PlayerAttack : MonoBehaviour
     }
     void Shoot()
     {
+        animatorFantasma.SetTrigger("Attack");
         if (isFireball)
         {
             ShootFire();
@@ -144,25 +156,30 @@ public class PlayerAttack : MonoBehaviour
     public void AttackMeelee()
     {
         swordGO.GetComponent<BoxCollider>().enabled = true;
-        if (animator == null) return;
+        if (animatorEsqueleto == null) return;
         if (isAttacking) return;
 
         isAttacking = true;
 
-        animator.applyRootMotion = false;
-        animator.ResetTrigger("Attack");
-        animator.SetTrigger("Attack");
+        animatorEsqueleto.applyRootMotion = false;
+        animatorEsqueleto.ResetTrigger("Attack");
+        animatorEsqueleto.SetTrigger("Attack");
 
         attackCoroutine = StartCoroutine(AttackRoutine());
     }
     private IEnumerator AttackRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
+        swordGO.GetComponent<BoxCollider>().enabled = true;
+
+        yield return new WaitForSeconds(0.2f);
         audioSource.PlayOneShot(swordSwingAudioClip);
 
-        yield return new WaitForSeconds(2.2f);
-        isAttacking = false;
+        yield return new WaitForSeconds(0.5f);
         swordGO.GetComponent<BoxCollider>().enabled = false;
+
+        yield return new WaitForSeconds(0.3f);
+        isAttacking = false;
     }
 
     void ShootFire()
@@ -232,6 +249,9 @@ public class PlayerAttack : MonoBehaviour
             case "Skull":
                 OnPickupSkull();
                 break;
+            case "GreenPotion":
+                ApplyPoisonEffect();
+                break;
         }
     }
 
@@ -276,5 +296,10 @@ public class PlayerAttack : MonoBehaviour
     public void NotifyAttackStatsChanged()
     {
         OnAttackStatsChangedEvent?.Invoke(attackDamage, attackInterval);
+    }
+
+    public void ApplyPoisonEffect()
+    {
+        appliesPoison = true;
     }
 }

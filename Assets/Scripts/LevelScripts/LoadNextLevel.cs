@@ -43,10 +43,20 @@ public class LoadNextLevel : MonoBehaviour
     {
         if (!other.CompareTag("Player"))
             return;
-
-        // SavePlayerStats(other.gameObject);
+        RemoveKeyFromPlayer();
+        SavePlayerStats(other.gameObject);
         StartCoroutine(PreTransitionFade());
     }
+
+    public void RemoveKeyFromPlayer()
+    {
+        PlayerInventory playerInventory = FindFirstObjectByType<PlayerInventory>();
+        if (playerInventory != null)
+        {
+            playerInventory.RemoveItem("Key");
+        }
+    }
+
 
     private IEnumerator PreTransitionFade()
     {
@@ -138,14 +148,25 @@ public class LoadNextLevel : MonoBehaviour
         var hp = player.GetComponent<PlayerHealth>();
         var changeCharacter = player.GetComponent<ChangeCharacter>();
 
+        float enemiesDeathCounterFloat = 0f;
+
+        EnemiesDeathCounter enemiesDeathCounter = GameObject.Find("EnemiesDeathCounterGO").GetComponent<EnemiesDeathCounter>();
+        if (enemiesDeathCounter != null)
+        {
+            enemiesDeathCounterFloat = enemiesDeathCounter.counter;
+        }
+
         data.maxHealth = hp.maxHealth;
         data.health = hp.healthPoints;
+        data.extraHealth = hp.extraHealthPoints;
         data.velocity = bh.velocity;
         data.damage = atk.attackDamage;
         data.attackInterval = atk.attackInterval;
         data.attackRange = atk.attackRange;
         data.attackType = atk.isFireball ? "Fireball" : "Thunder";
         data.actions = changeCharacter.GetUnlockedActions();
+        data.enemiesDeathCounter = enemiesDeathCounterFloat;
+        data.appliesPoison = atk.appliesPoison;
 
         string json = JsonConvert.SerializeObject(data);
         string path = Application.persistentDataPath + "/player.json";
