@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2944726118942081857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3008473160816118816}
+  - component: {fileID: 3783187611946142028}
+  - component: {fileID: 7507056594978238939}
+  - component: {fileID: 5209484865355184499}
+  - component: {fileID: 7665564490782863917}
+  m_Layer: 0
+  m_Name: LevelGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3008473160816118816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944726118942081857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3783187611946142028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944726118942081857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ffec93ca1fb8745b69a01ca70aff7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7507056594978238939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944726118942081857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42c7f7d11538aa4e82c97afa1a675c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPrefab: {fileID: 3151105536900344459, guid: ea0e997c18d44284aa5fbfb804a542f6, type: 3}
+  treasureRoomPrefab: {fileID: 6255862597455320277, guid: ef7569f98cd8558468b84a214f6ce4e9, type: 3}
+  bossRoomPrefab: {fileID: 8213333198550572446, guid: 371ca3a3b749625468353f60baf52fba, type: 3}
+  characterPrefab: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+  levelWidth: 0
+  levelId: 0
+  levelBaseY: 0
+  offsetW: 50
+  maxEnemiesPerRoom: 3
+  character: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+  fogEnabled: 0
+--- !u!114 &5209484865355184499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944726118942081857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98cd20c3a266adc4d868257926889f83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinimapBehaviour
+  minimapPanel: {fileID: 0}
+  roomIconPrefab: {fileID: 7997599683320553934, guid: 04c3d498cda197a43b475c91595f6ca2, type: 3}
+  playerIconPrefab: {fileID: 2110191091140840752, guid: ffc64621d66ec364594fc1ca0dbaafc7, type: 3}
+--- !u!114 &7665564490782863917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944726118942081857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c51ab04011f0c41b44cf5689204157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnKeyInRoom
+  keyPrefab: {fileID: 2253393103804301607, guid: e360d8d16d87ca544b56a603ea831f2f, type: 3}
+  suelo: {fileID: 0}
