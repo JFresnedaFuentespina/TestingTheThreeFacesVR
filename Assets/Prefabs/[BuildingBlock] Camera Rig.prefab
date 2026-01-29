@@ -7553,7 +7553,7 @@ GameObject:
   - component: {fileID: 4784055816140330903}
   m_Layer: 0
   m_Name: '[BuildingBlock] Camera Rig'
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10980,9 +10980,13 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1268984745341772963, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+    - target: {fileID: 1268984745341772960, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268984745341772963, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3737729101834662938, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11034,7 +11038,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 436858860151822120, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5951782529567808933}
+    - targetCorrespondingSourceObject: {fileID: 436858860151822120, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 198183225235132798}
+    - targetCorrespondingSourceObject: {fileID: 436858860151822120, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6066865803122976438}
   m_SourcePrefab: {fileID: 100100000, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+--- !u!1 &3082036551951535391 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6092935797539539729, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
+  m_PrefabInstance: {fileID: 9100617307533362702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5590365620948627988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3737729101834662938, guid: b7270ba7d43cfef47af8dfc466f81742, type: 3}
@@ -11080,7 +11095,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &5951782529567808933
 MonoBehaviour:
@@ -11098,3 +11113,41 @@ MonoBehaviour:
   rightHandEsqueleto: {fileID: 8444596205294250572}
   leftHandVR: {fileID: 2629853719661216703}
   rightHandVR: {fileID: 5685575600669881016}
+--- !u!114 &198183225235132798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672784892386906406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b83ea2ac504fc4db43204796ea29a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  fireball: {fileID: 7251879486380165639, guid: c2f6a8962aac3814aa56cb9647c93470, type: 3}
+  thunderPrefab: {fileID: 3300406336262876018, guid: 67544146273a40e48cb7167c545418e6, type: 3}
+  attackDamage: 5
+  attackSpeed: 5
+  spawnHeight: 1
+  attackRange: 2
+  attackInterval: 1
+  thunderLifeTime: 0.4
+  isFireball: 0
+  isThunder: 1
+  swordSwingAudioClip: {fileID: 0}
+  fireballAudioClip: {fileID: 0}
+  swordGO: {fileID: 3082036551951535391}
+  appliesPoison: 0
+--- !u!114 &6066865803122976438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672784892386906406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fb090f8460a01d4489254b9699c716a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupItem

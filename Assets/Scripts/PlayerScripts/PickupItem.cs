@@ -90,6 +90,7 @@ public class PickupItem : MonoBehaviour
         // Caso Key
         if (collision.gameObject.CompareTag("Key"))
         {
+            Debug.Log("Recogiendo Key");
             itemToPickup = collision.gameObject;
         }
         // Caso Pedestal
@@ -99,6 +100,7 @@ public class PickupItem : MonoBehaviour
                 return;
 
             itemToPickup = collision.transform.GetChild(0).gameObject;
+            Debug.Log("Recogiendo item del pedestal: " + itemToPickup.name);
         }
 
         ItemIcon iconComp = itemToPickup.GetComponent<ItemIcon>();
