@@ -31,8 +31,8 @@ public class PlayerHealth : MonoBehaviour
     private List<GameObject> corazones = new List<GameObject>();
     public bool canDie = false;
     private Rigidbody rb;
-    private Animator animatorEsqueleto;
-    private Animator animatorFantasma;
+    // private Animator animatorEsqueleto;
+    // private Animator animatorFantasma;
     private RotateCharacterToMouse rotateCharacterToMouse;
     private RotateCharacterWithJoystick rotateCharacterWithJoystick;
     private PlayerBehaviour playerBehaviour;
@@ -62,10 +62,10 @@ public class PlayerHealth : MonoBehaviour
         endgameManagerGO = GameObject.Find("EndgameManagerGO");
 
         Transform esqueletoHijo = transform.Find("Esqueleto");
-        animatorEsqueleto = esqueletoHijo != null ? esqueletoHijo.GetComponent<Animator>() : null;
+        // animatorEsqueleto = esqueletoHijo != null ? esqueletoHijo.GetComponent<Animator>() : null;
 
-        Transform ghostHijo = transform.Find("Ghost");
-        animatorFantasma = ghostHijo != null ? ghostHijo.GetComponent<Animator>() : null;
+        // Transform ghostHijo = transform.Find("Ghost");
+        // animatorFantasma = ghostHijo != null ? ghostHijo.GetComponent<Animator>() : null;
         // Cargar JSON
         string path = Application.persistentDataPath + "/player.json";
         bool loadedFromFile = false;
@@ -158,10 +158,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (!canDie || healthPoints > 0) return;
 
-        if (!changeCharacter.showingGhost)
-            animatorEsqueleto.SetTrigger("Death");
-        else
-            animatorFantasma.SetTrigger("Death");
+        // if (!changeCharacter.showingGhost)
+        //     animatorEsqueleto.SetTrigger("Death");
+        // else
+        //     animatorFantasma.SetTrigger("Death");
 
         // Bloquear movimiento y rotación
         BlockPlayerControl();
@@ -181,14 +181,14 @@ public class PlayerHealth : MonoBehaviour
 
     private IEnumerator WaitAndShowEndgame()
     {
-        Animator currentAnimator = changeCharacter.showingGhost
-            ? animatorFantasma
-            : animatorEsqueleto;
+        // Animator currentAnimator = changeCharacter.showingGhost
+        //     ? animatorFantasma
+        //     : animatorEsqueleto;
 
-        float animDuration = currentAnimator
-            .GetCurrentAnimatorStateInfo(0).length;
+        // float animDuration = currentAnimator
+        //     .GetCurrentAnimatorStateInfo(0).length;
 
-        yield return new WaitForSeconds(animDuration + 2f);
+        yield return new WaitForSeconds(2f);
 
         endgameManager = endgameManagerGO.GetComponent<EndgameManager>();
         if (endgameManager != null)
@@ -216,12 +216,12 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator DeathAndReturnToMenu()
-    {
-        float deathDuration = animatorEsqueleto.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(deathDuration + 5f);
-        SceneManager.LoadScene("MainMenu");
-    }
+    // private IEnumerator DeathAndReturnToMenu()
+    // {
+    //     // float deathDuration = animatorEsqueleto.GetCurrentAnimatorStateInfo(0).length;
+    //     // yield return new WaitForSeconds(deathDuration + 5f);
+    //     SceneManager.LoadScene("MainMenu");
+    // }
 
     private void InitializeHearts()
     {
