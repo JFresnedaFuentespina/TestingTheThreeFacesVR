@@ -143,10 +143,10 @@ public class LoadNextLevel : MonoBehaviour
     {
         var data = new PlayerData();
         GameObject player = playerGO.transform.root.gameObject;
-        var atk = player.GetComponent<PlayerAttack>();
-        var bh = player.GetComponent<PlayerBehaviour>();
-        var hp = player.GetComponent<PlayerHealth>();
-        var changeCharacter = player.GetComponent<ChangeCharacter>();
+        var atk = player.GetComponentInChildren<PlayerAttack>();
+        // var bh = player.GetComponentInChildren<PlayerBehaviour>();
+        var hp = player.GetComponentInChildren<PlayerHealth>();
+        // var changeCharacter = player.GetComponentInChildren<ChangeCharacter>();
 
         float enemiesDeathCounterFloat = 0f;
 
@@ -159,12 +159,12 @@ public class LoadNextLevel : MonoBehaviour
         data.maxHealth = hp.maxHealth;
         data.health = hp.healthPoints;
         data.extraHealth = hp.extraHealthPoints;
-        data.velocity = bh.velocity;
+        // data.velocity = bh.velocity;
         data.damage = atk.attackDamage;
         data.attackInterval = atk.attackInterval;
         data.attackRange = atk.attackRange;
         data.attackType = atk.isFireball ? "Fireball" : "Thunder";
-        data.actions = changeCharacter.GetUnlockedActions();
+        // data.actions = changeCharacter.GetUnlockedActions();
         data.enemiesDeathCounter = enemiesDeathCounterFloat;
         data.appliesPoison = atk.appliesPoison;
 
