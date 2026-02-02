@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 379357797}
   - component: {fileID: 379357799}
   - component: {fileID: 379357798}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 396801180}
   - component: {fileID: 396801182}
   - component: {fileID: 396801181}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: KidneyGames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,7 +568,8 @@ GameObject:
   - component: {fileID: 1009960140}
   - component: {fileID: 1009960139}
   - component: {fileID: 1009960138}
-  m_Layer: 5
+  - component: {fileID: 1009960142}
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -614,7 +615,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1009960140
 Canvas:
   m_ObjectHideFlags: 0
@@ -624,7 +625,7 @@ Canvas:
   m_GameObject: {fileID: 1009960137}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_Camera: {fileID: 359080526}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -647,7 +648,7 @@ RectTransform:
   m_GameObject: {fileID: 1009960137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.77213544, y: 0.77213544, z: 0.77213544}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 379357797}
@@ -657,9 +658,37 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 741.25, y: 382.625}
+  m_SizeDelta: {x: 1920, y: 991.0826}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1009960142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009960137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee10491ef6d5d1d49a270cf6b09bdc19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.VR::OVROverlayCanvas
+  _enableMipmapping: 0
+  _dynamicResolution: 1
+  _redrawResolutionThreshold: 2147483647
+  rectTransform: {fileID: 1009960141}
+  maxTextureSize: 2048
+  manualRedraw: 0
+  renderInterval: 1
+  renderIntervalFrameOffset: 0
+  expensive: 0
+  layer: 5
+  opacity: 2
+  shape: 0
+  curveRadius: 1
+  overlapMask: 0
+  overlayType: 1
+  _overlayEnabled: 1
 --- !u!1 &1322492808
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +827,7 @@ GameObject:
   - component: {fileID: 1918355508}
   - component: {fileID: 1918355510}
   - component: {fileID: 1918355509}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TheThreeFaces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
