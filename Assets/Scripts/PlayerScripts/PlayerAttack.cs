@@ -154,7 +154,7 @@ public class PlayerAttack : MonoBehaviour
 
     void ShootFire()
     {
-        // audioSource.PlayOneShot(fireballAudioClip);
+        audioSource.PlayOneShot(fireballAudioClip);
         isThunder = false;
         Vector3 direction = spawnPoint.forward;
 
