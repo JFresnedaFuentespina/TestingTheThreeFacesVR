@@ -25,8 +25,6 @@ public class PlayerAttack : MonoBehaviour
     private AudioSource audioSource;
     private Animator animatorEsqueleto;
     private Animator animatorFantasma;
-
-    public GameObject swordGO;
     public bool appliesPoison = false;
 
     public delegate void OnAttackStatsChanged(float damage, float interval);
@@ -70,7 +68,6 @@ public class PlayerAttack : MonoBehaviour
         animatorFantasma = FindGhostAnimator(transform);
         MeleeAttackHit weapon = this.gameObject.GetComponentInChildren<MeleeAttackHit>();
         weapon.attackDamage = attackDamage;
-        swordGO = GameObject.Find("Sword");
     }
 
     public static void RequestAttackStats()
