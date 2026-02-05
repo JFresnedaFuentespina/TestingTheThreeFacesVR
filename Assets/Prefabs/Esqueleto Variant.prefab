@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 206583211730378326, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 988547637625759203, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.36826035
@@ -100,6 +104,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8234987354189410192, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931792980716440998, guid: 4a46e821c58b5cd42b14eaab6d197266, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -133,7 +145,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1.4678942, z: 1}
   m_Center: {x: 0, y: 0.7152576, z: 0}
@@ -144,14 +156,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436858860151822120}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27a1c1202027c9440a70b5d6efd85bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  extraHealth: 0
   minHealth: 0
   healthPoints: 0
+  extraHealthPoints: 0
   heartContainer: {fileID: 0}
   fullHeartSprite: {fileID: 0}
   halfHeartSprite: {fileID: 0}
@@ -159,5 +173,7 @@ MonoBehaviour:
   bloodFrame: {fileID: 0}
   hitAudioClip: {fileID: 0}
   audioSource: {fileID: 0}
+  extraHeartSprite: {fileID: 0}
+  halfExtraHeart: {fileID: 0}
   hud: {fileID: 0}
   canDie: 0

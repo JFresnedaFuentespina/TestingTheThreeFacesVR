@@ -23,17 +23,17 @@ public class FireAttackHit : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        appliesPoison = playerAttack.appliesPoison;
+        // appliesPoison = playerAttack.appliesPoison;
         float destroyDelay = 0f;
-        if (gameObject.CompareTag("Thunderbolt"))
-        {
-            destroyDelay = 0.5f;
-        }
+        // if (gameObject.CompareTag("Thunderbolt"))
+        // {
+        //     destroyDelay = 0.5f;
+        // }
         EnemyLife enemyLife = other.GetComponent<EnemyLife>();
-        if (appliesPoison && enemyLife != null)
-        {
-            enemyLife.poisoned = true;
-        }
+        // if (appliesPoison && enemyLife != null)
+        // {
+        //     enemyLife.poisoned = true;
+        // }
         if (other.CompareTag("BossCara"))
         {
             CaraAI caraAi = other.GetComponent<CaraAI>();

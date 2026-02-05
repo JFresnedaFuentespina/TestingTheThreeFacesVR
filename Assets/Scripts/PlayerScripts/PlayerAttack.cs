@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private ChangeCharacter changeCharacter;
+    private ChangePlayerAttack changePlayerAttack;
     public GameObject fireball;
     public GameObject thunderPrefab;
     public float attackDamage = 5f;
@@ -33,6 +33,10 @@ public class PlayerAttack : MonoBehaviour
     public static event OnAttackStatsChanged OnAttackStatsChangedEvent;
     public delegate void OnAttackStatsRequested();
     public static event OnAttackStatsRequested OnAttackStatsRequestedEvent;
+
+    private OVRInput.Controller controller = OVRInput.Controller.RTouch; // Right-hand controller
+    private OVRInput.Button button = OVRInput.Button.PrimaryIndexTrigger; // Index trigger button
+    public Transform spawnPoint;
 
     void OnEnable()
     {
@@ -61,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
             isThunder = playerData.attackType == "Thunder";
             appliesPoison = playerData.appliesPoison;
         }
-        changeCharacter = GetComponent<ChangeCharacter>();
+        changePlayerAttack = GetComponent<ChangePlayerAttack>();
         animatorEsqueleto = FindEsqueletoAnimator(transform);
         animatorFantasma = FindGhostAnimator(transform);
         MeleeAttackHit weapon = this.gameObject.GetComponentInChildren<MeleeAttackHit>();
@@ -119,9 +123,9 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (changeCharacter != null)
+        if (changePlayerAttack != null)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Fire"))
+            if (OVRInput.GetDown(button, controller))
             {
                 TryAttack();
             }
@@ -132,14 +136,12 @@ public class PlayerAttack : MonoBehaviour
         if (Time.time < lastAttackTime + attackInterval)
             return;
         lastAttackTime = Time.time;
-        if (changeCharacter.showingGhost)
+        if (changePlayerAttack.showingGhost)
             Shoot();
-        else
-            AttackMeelee();
     }
     void Shoot()
     {
-        animatorFantasma.SetTrigger("Attack");
+        // animatorFantasma.SetTrigger("Attack");
         if (isFireball)
         {
             ShootFire();
@@ -150,47 +152,13 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-
-    private Coroutine attackCoroutine;
-
-    public void AttackMeelee()
-    {
-        swordGO.GetComponent<BoxCollider>().enabled = true;
-        if (animatorEsqueleto == null) return;
-        if (isAttacking) return;
-
-        isAttacking = true;
-
-        animatorEsqueleto.applyRootMotion = false;
-        animatorEsqueleto.ResetTrigger("Attack");
-        animatorEsqueleto.SetTrigger("Attack");
-
-        attackCoroutine = StartCoroutine(AttackRoutine());
-    }
-    private IEnumerator AttackRoutine()
-    {
-        yield return new WaitForSeconds(0.1f);
-        swordGO.GetComponent<BoxCollider>().enabled = true;
-
-        yield return new WaitForSeconds(0.2f);
-        audioSource.PlayOneShot(swordSwingAudioClip);
-
-        yield return new WaitForSeconds(0.5f);
-        swordGO.GetComponent<BoxCollider>().enabled = false;
-
-        yield return new WaitForSeconds(0.3f);
-        isAttacking = false;
-    }
-
     void ShootFire()
     {
-        audioSource.PlayOneShot(fireballAudioClip);
+        // audioSource.PlayOneShot(fireballAudioClip);
         isThunder = false;
-        Vector3 direction = transform.forward;
-        Vector3 spawnPos = transform.position + Vector3.up * spawnHeight;
+        Vector3 direction = spawnPoint.forward;
 
-        GameObject newFireball = Instantiate(fireball, spawnPos, Quaternion.LookRotation(direction));
-
+        GameObject newFireball = Instantiate(fireball, spawnPoint.position, Quaternion.LookRotation(direction));
         // Asignar la dirección al script del proyectil
         FireballBehaviour fbMove = newFireball.GetComponent<FireballBehaviour>();
         if (fbMove != null)
