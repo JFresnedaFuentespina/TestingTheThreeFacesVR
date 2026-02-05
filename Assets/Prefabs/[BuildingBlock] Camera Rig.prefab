@@ -7821,7 +7821,7 @@ MonoBehaviour:
   isFireball: 1
   isThunder: 0
   swordSwingAudioClip: {fileID: 0}
-  fireballAudioClip: {fileID: 0}
+  fireballAudioClip: {fileID: 8300000, guid: d8c9f6964b00f354ea48560606339ed6, type: 3}
   swordGO: {fileID: 3082036551951535391}
   appliesPoison: 0
   spawnPoint: {fileID: 8258678299507928775}
@@ -11194,6 +11194,18 @@ PrefabInstance:
     - target: {fileID: 5364301915427803946, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384116413921398048, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384116413921398048, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5384116413921398048, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5384116413921398048, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalPosition.z
