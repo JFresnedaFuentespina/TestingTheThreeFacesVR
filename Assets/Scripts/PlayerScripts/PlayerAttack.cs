@@ -172,7 +172,7 @@ public class PlayerAttack : MonoBehaviour
     {
         isFireball = false;
 
-        Vector3 direction = transform.forward;
+        Vector3 direction = spawnPoint.forward;
         Vector3 spawnPos = transform.position + direction * attackRange;
         spawnPos.y = thunderSpawnY; // forzar la altura exacta
 

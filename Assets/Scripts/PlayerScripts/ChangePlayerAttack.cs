@@ -7,6 +7,8 @@ public class ChangePlayerAttack : MonoBehaviour
     public bool showingGhost = false;
     public GameObject sword;
     public GameObject fireball;
+    public GameObject thunder;
+    public bool isThunder = false;
     public GameObject explosionVFX;
     public float switchCooldown = 2f;
     private float lastSwitchTime = -Mathf.Infinity;
@@ -16,13 +18,15 @@ public class ChangePlayerAttack : MonoBehaviour
 
     void OnDestroy()
     {
-        // PickupItem.OnNewChangeCharacterActionEvent -= AddAction;
         HourglassItemPickupBehaviour.OnNewChangeCharacterActionEvent -= AddAction;
         BombItemPickupBehaviour.OnNewChangeCharacterActionEvent -= AddAction;
+        ThunderPickupItemBehaviour.OnPlayerAttackTypeEvent -= UpdateAttackType;
     }
     void Start()
     {
-
+        HourglassItemPickupBehaviour.OnNewChangeCharacterActionEvent += AddAction;
+        BombItemPickupBehaviour.OnNewChangeCharacterActionEvent += AddAction;
+        ThunderPickupItemBehaviour.OnPlayerAttackTypeEvent += UpdateAttackType;
     }
 
     // Update is called once per frame
@@ -33,6 +37,11 @@ public class ChangePlayerAttack : MonoBehaviour
             SwitchCharacter();
             lastSwitchTime = Time.time;
         }
+    }
+
+    void UpdateAttackType(bool isThunder)
+    {
+        this.isThunder = isThunder;
     }
 
     void SwitchCharacter()
@@ -52,12 +61,26 @@ public class ChangePlayerAttack : MonoBehaviour
         if (showingGhost)
         {
             sword.gameObject.SetActive(false);
-            fireball.gameObject.SetActive(true);
+            if (isThunder)
+            {
+                thunder.gameObject.SetActive(true);
+            }
+            else
+            {
+                fireball.gameObject.SetActive(true);
+            }
         }
         else
         {
             sword.gameObject.SetActive(true);
-            fireball.gameObject.SetActive(false);
+            if (isThunder)
+            {
+                thunder.gameObject.SetActive(false);
+            }
+            else
+            {
+                fireball.gameObject.SetActive(false);
+            }
         }
 
         // rotateCoin.rotate = true;
