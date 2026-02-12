@@ -72,4 +72,16 @@ public class PlayerInventory : MonoBehaviour
         if (inventory == null) return;
         OnInventoryReadyForVictory?.Invoke(inventory);
     }
+
+    public bool hasKey
+    {
+        get
+        {
+            if (inventory != null)
+            {
+                return inventory.HasItem("Key");
+            }
+            return false;
+        }
+    }
 }

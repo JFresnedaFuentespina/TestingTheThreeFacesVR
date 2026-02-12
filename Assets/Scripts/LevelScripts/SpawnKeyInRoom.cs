@@ -65,6 +65,13 @@ public class SpawnKeyInRoom : MonoBehaviour
 
     public void GenerateKey(Vector3 roomPos)
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        PlayerInventory inventory = player.GetComponent<PlayerInventory>();
+        if (inventory.hasKey)
+        {
+            Debug.Log("El jugador ya tiene la llave.");
+            return;
+        }
         Debug.Log("Intentando generar llave en habitación: " + roomPos);
         // Solo generar si es la habitación seleccionada
         if (roomPos != selectedRoomPos)
@@ -79,5 +86,4 @@ public class SpawnKeyInRoom : MonoBehaviour
             Quaternion.identity
         );
     }
-
 }
