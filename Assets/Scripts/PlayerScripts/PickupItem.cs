@@ -120,6 +120,25 @@ public class PickupItem : MonoBehaviour
         Destroy(itemToPickup);
     }
 
+    public void PickupItemRayInteraction(GameObject item)
+    {
+        ItemIcon iconComp = item.GetComponent<ItemIcon>();
+        if (iconComp == null)
+        {
+            Debug.LogWarning("El objeto no tiene ItemIcon");
+            return;
+        }
+
+        // Añadir al inventario
+        OnAddItemToInventoryEvent?.Invoke(iconComp.itemID, iconComp.icon);
+        AddItemToHUD(iconComp.icon, iconComp.itemID);
+
+        // Aplicar efectos
+        ApplyItemEffects(item);
+
+        Destroy(item);
+    }
+
 
     private void ApplyItemEffects(GameObject item)
     {

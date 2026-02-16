@@ -12,15 +12,14 @@ public class MinimapBehaviour : MonoBehaviour
     private Dictionary<string, GameObject> minimapIcons = new Dictionary<string, GameObject>();
 
     private GameObject playerIcon;
-    private GameObject characterRef;
 
     private float mapScale = 1.5f;
 
     public void initMinimap(Dictionary<string, Vector3> levelRoomsDictionary, GameObject character)
     {
         roomsDictionary = levelRoomsDictionary;
-        characterRef = character;
-
+        minimapPanel = GameObject.Find("Minimap");
+        Debug.Log("MINIMAPBEHAVIOUR: Minimap initialized with " + roomsDictionary.Count + " rooms.");
         GenerateMinimapIcons();
         GeneratePlayerIcon(character);
     }

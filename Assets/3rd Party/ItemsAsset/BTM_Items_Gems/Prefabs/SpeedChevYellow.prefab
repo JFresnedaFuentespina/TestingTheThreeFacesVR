@@ -93,6 +93,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5147288548952374421}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6102911848120978428}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6816980254911146636}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2553429989742192956}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1017647666221088321}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3935841494775386802}
   m_SourcePrefab: {fileID: 100100000, guid: 64a927c80033db0409b71cfd8df5461a, type: 3}
 --- !u!1 &5310963310368244162 stripped
 GameObject:
@@ -151,3 +166,119 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8409a516ef676746ae17e96aa8a3728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IncreaseAttackSpdItemPickupBehaviour
+--- !u!114 &6102911848120978428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310963310368244162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb86ba9d4c5126e48bfef9b0c9550e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.RayInteractable
+  _interactorFilters: []
+  _maxInteractors: -1
+  _maxSelectingInteractors: -1
+  _data: {fileID: 0}
+  _pointableElement: {fileID: 0}
+  _surface: {fileID: -3935841494775386802}
+  _selectSurface: {fileID: 0}
+  _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
+--- !u!65 &-6816980254911146636
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310963310368244162}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.4512331, y: 2.2319016, z: 0.24383026}
+  m_Center: {x: 0, y: 0.0014672875, z: -0.1219151}
+--- !u!114 &-2553429989742192956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310963310368244162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464721f2283eb14e94a33e812b47be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.InteractableUnityEventWrapper
+  _interactableView: {fileID: 6102911848120978428}
+  _whenHover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenUnhover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1017647666221088321}
+        m_TargetAssemblyTypeName: ItemInteractable, Assembly-CSharp
+        m_MethodName: OnSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _whenUnselect:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-1017647666221088321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310963310368244162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7a4c93712cafb4884029cbed40e87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemInteractable
+--- !u!114 &-3935841494775386802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310963310368244162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2140d2b457bea84881488302059889b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Surfaces.ColliderSurface
+  _collider: {fileID: -6816980254911146636}
