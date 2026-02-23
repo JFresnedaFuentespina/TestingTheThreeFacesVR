@@ -25,7 +25,6 @@
   <Project Path="Oculus.VR.Scripts.Editor.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
-  <Project Path="PlayerHealthAssembly.csproj" />
   <Project Path="meta.xr.mrutilitykit.editor.csproj" />
   <Project Path="Meta.XR.ImmersiveDebugger.csproj" />
   <Project Path="Unity.XR.CoreUtils.csproj" />
@@ -116,7 +115,6 @@
   <Project Path="Meta.XR.ImmersiveDebugger.Interface.csproj" />
   <Project Path="Meta.XR.Editor.UPST.Notifications.csproj" />
   <Project Path="Oculus.Interaction.Samples.Editor.csproj" />
-  <Project Path="EditMode.csproj" />
   <Project Path="Meta.XR.Editor.Callbacks.csproj" />
   <Project Path="Meta.Wit.Dictation.Editor.csproj" />
   <Project Path="Unity.XR.OpenXR.Features.RuntimeDebugger.csproj" />

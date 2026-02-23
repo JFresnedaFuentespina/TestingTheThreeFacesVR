@@ -84,9 +84,9 @@ public class LevelGenerator : MonoBehaviour
                 if (i == 0 && character != null)
                 {
                     character = Instantiate(characterPrefab, position, Quaternion.identity);
-                    Camera cameraPlayer = character.transform.Find("PlayerCamera").GetComponent<Camera>();
-                    if (cameraDialogueManager != null)
-                        cameraDialogueManager.RegisterPlayerCamera(cameraPlayer);
+                    // Camera cameraPlayer = character.transform.Find("PlayerCamera").GetComponent<Camera>();
+                    // if (cameraDialogueManager != null)
+                    //     cameraDialogueManager.RegisterPlayerCamera(cameraPlayer);
                 }
 
                 roomsDictionary.Add($"Room_{i}", position);
