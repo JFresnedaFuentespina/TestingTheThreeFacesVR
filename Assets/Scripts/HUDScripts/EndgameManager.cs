@@ -38,15 +38,6 @@ public class EndgameManager : MonoBehaviour
         exitButtonWin.onClick.AddListener(ExitGame);
         restartButtonWin.onClick.AddListener(RestartGame);
     }
-    void OnEnable()
-    {
-        PlayerInventory.OnInventoryReadyForVictory += ShowEndgameVictory;
-    }
-
-    void OnDisable()
-    {
-        PlayerInventory.OnInventoryReadyForVictory -= ShowEndgameVictory;
-    }
 
 
     public void ShowEndgameDeath(GameObject enemy, Inventory inventory)
@@ -81,19 +72,6 @@ public class EndgameManager : MonoBehaviour
         ShowInventory(inventory, false);
     }
 
-    public void ShowEndgameVictory(Inventory inventory)
-    {
-        pauseMenuManager.GetComponent<ShowPauseMenu>().enabled = false;
-        float enemyKilledCount = GameObject.Find("EnemiesDeathCounterGO").GetComponent<EnemiesDeathCounter>().counter;
-        endgameWinPanel.SetActive(true);
-        float min = timerGO.GetComponent<GameTimer>().min;
-        float sec = timerGO.GetComponent<GameTimer>().sec;
-        timerGO.GetComponent<GameTimer>().PauseTimer();
-        timerTxt.text = "Completaste el juego en " + min + " minutos y " + sec + " segundos!";
-        enemiesKilledTxtWin.text = "Mataste a " + enemyKilledCount + " enemigos!";
-        ShowInventory(inventory, true);
-    }
-
     public void ExitGame()
     {
         ResetFiles();
@@ -123,11 +101,34 @@ public class EndgameManager : MonoBehaviour
     public void ShowInventory(Inventory inventory, bool isWin)
     {
         GameObject inventoryPanel = isWin ? inventoryPanelWin : inventoryPanelDeath;
-        // Limpiar iconos anteriores
+
         foreach (Transform child in inventoryPanel.transform)
             Destroy(child.gameObject);
 
-        // Crear un Image por cada InventoryItem
+        GridLayoutGroup grid = inventoryPanel.GetComponent<GridLayoutGroup>();
+        RectTransform panelRect = inventoryPanel.GetComponent<RectTransform>();
+
+        int itemCount = inventory.items.Count;
+        if (itemCount == 0) return;
+
+        // --- CONFIGURACIÓN ---
+        int columns = Mathf.CeilToInt(Mathf.Sqrt(itemCount));
+        int rows = Mathf.CeilToInt((float)itemCount / columns);
+
+        float spacingX = grid.spacing.x;
+        float spacingY = grid.spacing.y;
+
+        float totalWidth = panelRect.rect.width - (spacingX * (columns - 1)) - grid.padding.left - grid.padding.right;
+        float totalHeight = panelRect.rect.height - (spacingY * (rows - 1)) - grid.padding.top - grid.padding.bottom;
+
+        float cellWidth = totalWidth / columns;
+        float cellHeight = totalHeight / rows;
+
+        grid.cellSize = new Vector2(cellWidth, cellHeight);
+        grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        grid.constraintCount = columns;
+
+        // --- Crear iconos ---
         foreach (var item in inventory.items)
         {
             if (item.icon == null) continue;
@@ -137,9 +138,7 @@ public class EndgameManager : MonoBehaviour
 
             Image img = iconGO.GetComponent<Image>();
             img.sprite = item.icon;
-            img.SetNativeSize();
-
-            img.rectTransform.sizeDelta = new Vector2(80, 80);
+            img.preserveAspect = true;
         }
     }
 }

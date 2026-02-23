@@ -27,8 +27,10 @@ public class EnemyLife : MonoBehaviour
         {
             enemiesDeathCounter = enemiesDeathCounterGO.GetComponent<EnemiesDeathCounter>();
         }
-
-        audioSource.PlayOneShot(defaultAudioClip);
+        if (audioSource != null && defaultAudioClip != null)
+        {
+            audioSource.PlayOneShot(defaultAudioClip);
+        }
         currentHp = totalHp;
         if (healthBar != null)
         {
@@ -52,6 +54,8 @@ public class EnemyLife : MonoBehaviour
         currentHp = Mathf.Clamp(currentHp, 0f, totalHp);
         UpdateHealthBar();
         UpdateIsAlive();
+
+        Debug.Log("ENEMY LIFE: " + gameObject.name + " took " + hit + " damage. Current HP: " + currentHp);
 
         if (poisoned)
         {
@@ -140,10 +144,11 @@ public class EnemyLife : MonoBehaviour
             gameObject.GetComponent<Collider>().enabled = false;
         }
         enemiesDeathCounter.counter++;
-        if(gameObject.GetComponent<CantoDeathBehaviour>() != null)
+        if (gameObject.GetComponent<CantoDeathBehaviour>() != null)
         {
             gameObject.GetComponent<CantoDeathBehaviour>().NotifyVictory();
         }
+        Debug.Log("ENEMY LIFE: " + gameObject.name + " has died.");
         Destroy(gameObject, deathDelay);
     }
 }

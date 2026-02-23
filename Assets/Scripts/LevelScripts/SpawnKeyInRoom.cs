@@ -10,6 +10,7 @@ public class SpawnKeyInRoom : MonoBehaviour
     private Dictionary<string, Vector3> roomsDictionary;
     private Vector3 selectedRoomPos;
     public GameObject suelo;
+    public bool spawned = false;
     void Start()
     {
         levelGenerator = GetComponent<LevelGenerator>();
@@ -67,9 +68,9 @@ public class SpawnKeyInRoom : MonoBehaviour
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         PlayerInventory inventory = player.GetComponent<PlayerInventory>();
-        if (inventory.hasKey)
+        if (inventory.hasKey || spawned)
         {
-            Debug.Log("El jugador ya tiene la llave.");
+            Debug.Log("El jugador ya tiene la llave o ya fue generada.");
             return;
         }
         Debug.Log("Intentando generar llave en habitación: " + roomPos);
@@ -85,5 +86,7 @@ public class SpawnKeyInRoom : MonoBehaviour
             roomPos + spawnOffset,
             Quaternion.identity
         );
+        spawned = true;
     }
+
 }

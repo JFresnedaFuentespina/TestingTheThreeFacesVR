@@ -29,7 +29,7 @@ public class MeleeAttackHit : MonoBehaviour
         }
         if (other.CompareTag("BossCara"))
         {
-            CaraAI caraAi = other.GetComponent<CaraAI>();
+            CaraAnimatorController caraAi = other.GetComponent<CaraAnimatorController>();
             if (caraAi != null)
             {
                 enemyLife.Damage(attackDamage);
@@ -38,7 +38,7 @@ public class MeleeAttackHit : MonoBehaviour
         }
         else if (other.CompareTag("BossCruz"))
         {
-            CruzAI cruzAI = other.GetComponent<CruzAI>();
+            CruzAnimatorController cruzAI = other.GetComponent<CruzAnimatorController>();
             if (cruzAI != null)
             {
                 enemyLife.Damage(attackDamage);
@@ -47,7 +47,7 @@ public class MeleeAttackHit : MonoBehaviour
         }
         else if (other.CompareTag("BossCanto"))
         {
-            CantoAI cantoAI = other.GetComponent<CantoAI>();
+            CantoAnimatorController cantoAI = other.GetComponent<CantoAnimatorController>();
             if (cantoAI != null)
             {
                 enemyLife.Damage(attackDamage);

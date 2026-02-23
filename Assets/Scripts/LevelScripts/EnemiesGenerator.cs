@@ -15,11 +15,23 @@ public class EnemiesGenerator : MonoBehaviour
     public float spawnAreaX = 2f;
     public float spawnAreaZ = 2f;
 
+    private CameraDialogueManager cameraDialogueManager;
+
     private bool enemiesSpawned = false;
     private List<EnemyLife> spawnedEnemies = new List<EnemyLife>();
     public bool enemiesDefeated = false;
 
     public bool enemiesActuallySpawned = false;
+
+    void Awake()
+    {
+        cameraDialogueManager = FindAnyObjectByType<CameraDialogueManager>();
+        if (cameraDialogueManager == null)
+        {
+            Debug.LogWarning("CAMERA DIALOGUE MANAGER NOT FOUND");
+        }
+    }
+
 
     public void GenerateEnemiesInRoom(Vector3 roomPos)
     {
@@ -69,15 +81,15 @@ public class EnemiesGenerator : MonoBehaviour
         // Spawn de boss si es sala de boss
         if (gameObject.name.IndexOf("Boss", System.StringComparison.OrdinalIgnoreCase) >= 0)
         {
-            if(SceneManager.GetActiveScene().name == "Level1Scene")
+            if (SceneManager.GetActiveScene().name == "Level1Scene")
             {
                 GenerateBoss(bossCaraPrefab, bounds, roomPos);
             }
-            else if(SceneManager.GetActiveScene().name == "Level2Scene")
+            else if (SceneManager.GetActiveScene().name == "Level2Scene")
             {
                 GenerateBoss(bossCruzPrefab, bounds, roomPos);
             }
-            else if(SceneManager.GetActiveScene().name == "Level3Scene")
+            else if (SceneManager.GetActiveScene().name == "Level3Scene")
             {
                 GenerateBoss(bossCantoPrefab, bounds, roomPos);
             }
@@ -105,6 +117,19 @@ public class EnemiesGenerator : MonoBehaviour
             GameObject newBoss = Instantiate(boss, bossSpawn, Quaternion.identity);
             EnemyLife bossLife = newBoss.GetComponent<EnemyLife>();
             if (bossLife != null) spawnedEnemies.Add(bossLife);
+            Camera cameraBoss = newBoss.GetComponentInChildren<Camera>(true);
+            if (cameraBoss == null)
+            {
+                Debug.LogError("BOSS CAMERA NOT FOUND IN PREFAB");
+            }
+            else
+            {
+                Debug.Log("BOSS CAMERA FOUND: " + cameraBoss.name);
+            }
+
+            cameraDialogueManager.RegisterBossCamera(cameraBoss);
+            cameraDialogueManager.RefreshCamera();
+
         }
     }
 

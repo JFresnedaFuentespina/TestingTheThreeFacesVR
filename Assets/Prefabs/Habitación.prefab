@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 3151105535327309648}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.5, y: 5, z: -12}
-  m_LocalScale: {x: 1.5, y: 1, z: 1}
+  m_LocalPosition: {x: -1.5, y: 5, z: -8.7}
+  m_LocalScale: {x: 2.42505, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5873194953621681101}
@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3151105535327309648}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad85a24c76e86cc45bd1040a4d583d90, type: 2}
+  - {fileID: 2100000, guid: 338960622876e1e4c9ba437a1872f9ce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -729,6 +729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnRandomKeyInLevel
   keyPrefab: {fileID: 2253393103804301607, guid: e360d8d16d87ca544b56a603ea831f2f, type: 3}
   suelo: {fileID: 0}
+  spawned: 0
 --- !u!1 &3171065194170000403
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +923,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5873194953621681101
 Transform:
   m_ObjectHideFlags: 0
@@ -932,7 +933,7 @@ Transform:
   m_GameObject: {fileID: 5831338497685844691}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 0.96, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.3563998, z: 1.89868}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2169,7 +2170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8068273386063409431, guid: effaaa665bce18747b546d1bc5c10965, type: 3}
       propertyPath: m_Intensity
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2886,11 +2887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5982321082539208549, guid: a7cf58045731a7446b9778f2bdce3634, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6845309972967186532, guid: a7cf58045731a7446b9778f2bdce3634, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7356706232680632147, guid: a7cf58045731a7446b9778f2bdce3634, type: 3}
       propertyPath: m_LocalScale.x

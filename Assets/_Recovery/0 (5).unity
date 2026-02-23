@@ -1867,7 +1867,7 @@ PrefabInstance:
     - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
       propertyPath: character
       value: 
-      objectReference: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+      objectReference: {fileID: 7930126595310468033, guid: e94499e9e8effe247ace11156ea23664, type: 3}
     - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
       propertyPath: loadingPanel
       value: 

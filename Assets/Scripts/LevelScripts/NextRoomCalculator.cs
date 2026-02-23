@@ -18,12 +18,12 @@ public class NextRoomCalculator : MonoBehaviour
 
         level = FindAnyObjectByType<LevelGenerator>();
         audioManagerGO = GameObject.Find("Music");
-        //! audioManager = audioManagerGO.GetComponent<AudioManager>();
-        //! audioManager.level = level.levelWidth;
-        //! if (audioManager == null)
-        //! {
-        //!     Debug.Log("AUDIO MANAGER NOT FOUND!!");
-        //! }
+        audioManager = audioManagerGO.GetComponent<AudioManager>();
+        audioManager.level = level.levelWidth;
+        if (audioManager == null)
+        {
+            Debug.Log("AUDIO MANAGER NOT FOUND!!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,7 +62,7 @@ public class NextRoomCalculator : MonoBehaviour
                 enabledTemporarily = false;
                 return;
             }
-            //! audioManager?.PlayBossMusic();
+            audioManager?.PlayBossMusic();
         }
 
         // Desactivar puertas de la habitación de destino temporalmente
@@ -180,7 +180,9 @@ public class NextRoomCalculator : MonoBehaviour
         {
             "ParedIzquierda/Door_Prefab_Closed_Left",
             "ParedDerecha/Door_Prefab_Closed_Right",
-            "ParedFrontal/Door_Prefab_Closed_Front"
+            "ParedFrontal/Door_Prefab_Closed_Front",
+            "ParedFrontal/Door_Prefab_Closed_Front (Bad)",
+            "ParedFrontal/Door_Prefab_Closed_Front (Good)"
         };
 
         foreach (string path in doorPaths)
