@@ -62,13 +62,14 @@ MonoBehaviour:
   roomPrefab: {fileID: 3151105536900344459, guid: ea0e997c18d44284aa5fbfb804a542f6, type: 3}
   treasureRoomPrefab: {fileID: 6255862597455320277, guid: ef7569f98cd8558468b84a214f6ce4e9, type: 3}
   bossRoomPrefab: {fileID: 8213333198550572446, guid: 371ca3a3b749625468353f60baf52fba, type: 3}
-  characterPrefab: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+  finalBossRoomPrefab: {fileID: 8213333198550572446, guid: 668a4d954f43f44458effe7c242c8c34, type: 3}
+  characterPrefab: {fileID: 7930126595310468033, guid: e94499e9e8effe247ace11156ea23664, type: 3}
   levelWidth: 0
   levelId: 0
   levelBaseY: 0
   offsetW: 50
   maxEnemiesPerRoom: 3
-  character: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+  character: {fileID: 0}
   fogEnabled: 0
 --- !u!114 &5209484865355184499
 MonoBehaviour:

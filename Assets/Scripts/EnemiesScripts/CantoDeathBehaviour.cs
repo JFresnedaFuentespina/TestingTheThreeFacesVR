@@ -12,6 +12,6 @@ public class CantoDeathBehaviour : MonoBehaviour
 
     public void NotifyVictory()
     {
-        OnVictoryEvent?.Invoke();
+        // OnVictoryEvent?.Invoke();
     }
 }

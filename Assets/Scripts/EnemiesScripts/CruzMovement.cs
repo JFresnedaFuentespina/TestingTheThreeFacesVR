@@ -16,8 +16,10 @@ public class CruzMovement : MonoBehaviour
 
     private GameObject player;
     private NavMeshAgent agent;
-    private CruzAI cruzAI;
+    private CruzAnimatorController cruzAI;
     private Animator animator;
+    private CruzDialogManager dialogManager;
+    private EnemyLife enemyLife;
 
     private bool isWalking = false;
     private bool isAttacking = false;
@@ -25,14 +27,18 @@ public class CruzMovement : MonoBehaviour
 
     private enum AttackType { None, Punch2, Punch3, Throw }
     private AttackType currentAttack = AttackType.None;
+    public CruzBallAttack cruzBallAttack;
 
     void Start()
     {
+        enemyLife = GetComponent<EnemyLife>();
+        dialogManager = GetComponent<CruzDialogManager>();
+
         agent = GetComponent<NavMeshAgent>();
         agent.speed = 0f;
 
         BuscarJugador();
-        cruzAI = GetComponent<CruzAI>();
+        cruzAI = GetComponent<CruzAnimatorController>();
         animator = cruzAI.animator;
     }
 
@@ -40,7 +46,10 @@ public class CruzMovement : MonoBehaviour
     {
         if (player == null) return;
 
-        transform.LookAt(player.transform);
+        if (currentAttack != AttackType.Throw)
+        {
+            transform.LookAt(player.transform);
+        }
 
         spawnTimer += Time.deltaTime;
         attackTimer += Time.deltaTime;
@@ -59,6 +68,13 @@ public class CruzMovement : MonoBehaviour
 
         // Movimiento según estado
         UpdateMovement(distance);
+
+        if (enemyLife.currentHp <= 0f)
+        {
+            cruzAI.SetDeath();
+            dialogManager.ShowDeathDialog();
+            enabled = false;
+        }
     }
 
     private void TryAttack(float distance)
@@ -101,8 +117,11 @@ public class CruzMovement : MonoBehaviour
 
             case 2: // Throw
                 currentAttack = AttackType.Throw;
-                agent.speed = 0f;
+                agent.ResetPath();
+                agent.isStopped = true;
+                agent.velocity = Vector3.zero;
                 cruzAI.SetThrow();
+                cruzBallAttack.active = true;
                 StartCoroutine(WaitForAttack(animator.GetCurrentAnimatorStateInfo(0).length));
                 break;
         }
@@ -149,11 +168,19 @@ public class CruzMovement : MonoBehaviour
     {
         if (!isFinishingAttack) return;
 
+        AttackType finishedAttack = currentAttack;
+
         isAttacking = false;
         currentAttack = AttackType.None;
+
         agent.speed = moveSpeed;
         agent.isStopped = false;
 
+        if (finishedAttack == AttackType.Throw)
+        {
+            cruzBallAttack.active = false;
+            Debug.Log("CRUZ BALL ATTACK ACTIVE? " + cruzBallAttack.active);
+        }
         StartWalking();
     }
 

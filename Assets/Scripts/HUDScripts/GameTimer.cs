@@ -16,6 +16,26 @@ public class GameTimer : MonoBehaviour
 
     void Awake()
     {
+        ReadTimerJSON();
+    }
+    void OnDisable()
+    {
+        SaveTimer();
+    }
+
+    void OnEnable()
+    {
+        ReadTimerJSON();
+        ResumeTimer();
+    }
+
+    void Start()
+    {
+        ResumeTimer();
+    }
+
+    private void ReadTimerJSON()
+    {
         timerPath = Application.persistentDataPath + "/timer.json";
 
         if (File.Exists(timerPath))
@@ -35,11 +55,6 @@ public class GameTimer : MonoBehaviour
                 elapsedTime = 0f;
             }
         }
-    }
-
-    void Start()
-    {
-        ResumeTimer();
     }
 
     private IEnumerator TimerCoroutine()

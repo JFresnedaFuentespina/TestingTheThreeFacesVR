@@ -8,11 +8,18 @@ public class DoorsEnabler : MonoBehaviour
     private NextRoomCalculator calc;
     private bool doorsReenabled = false;
     public List<GameObject> torches;
+    private GameObject player;
+    private PlayerInventory inventory;
 
     void Start()
     {
         calc = GetComponentInChildren<NextRoomCalculator>();
         generator = GetComponent<EnemiesGenerator>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            inventory = player.GetComponent<PlayerInventory>();
+        }
     }
 
     public void StartCheckEnemies()
@@ -36,7 +43,9 @@ public class DoorsEnabler : MonoBehaviour
         {
         "ParedIzquierda/Door_Prefab_Closed_Left",
         "ParedDerecha/Door_Prefab_Closed_Right",
-        "ParedFrontal/Door_Prefab_Closed_Front"
+        "ParedFrontal/Door_Prefab_Closed_Front",
+        "ParedFrontal/Door_Prefab_Closed_Front (Bad)",
+        "ParedFrontal/Door_Prefab_Closed_Front (Good)"
     };
         if (!generator.enemiesActuallySpawned)
         {
@@ -78,6 +87,7 @@ public class DoorsEnabler : MonoBehaviour
             if (transform.Find("ParedFrontal/TorchFront") != null)
                 torches.Add(transform.Find("ParedFrontal/TorchFront").gameObject);
         }
+        
         foreach (GameObject torch in torches)
         {
             if (torch == null) continue;
@@ -85,8 +95,12 @@ public class DoorsEnabler : MonoBehaviour
             Transform red = torch.transform.Find("FireRed");
             Transform green = torch.transform.Find("FireGreen");
 
-            if (red != null) red.gameObject.SetActive(false);
-            if (green != null) green.gameObject.SetActive(true);
+            // Torch frontal requiere llave
+            bool isFrontTorch = torch.name.Contains("TorchFront");
+            bool canTurnGreen = !isFrontTorch || (inventory != null && inventory.hasKey);
+
+            if (red != null) red.gameObject.SetActive(!canTurnGreen);
+            if (green != null) green.gameObject.SetActive(canTurnGreen);
         }
     }
 }

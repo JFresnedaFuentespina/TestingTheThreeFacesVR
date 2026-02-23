@@ -35,7 +35,6 @@ public class PlayerBehaviour : MonoBehaviour
         SubscribeToPickupEvents();
         changeCharacter = GetComponent<ChangeCharacter>();
 
-        // Buscar el TRANSFORM del hijo que se llama "Esqueleto"
         Transform esqueletoHijo = transform.Find("Esqueleto");
         if (esqueletoHijo == null)
         {
@@ -85,7 +84,6 @@ public class PlayerBehaviour : MonoBehaviour
     }
     public void SubscribeToPickupEvents()
     {
-        // PickupItem.OnPlayerSpeedEvent += UpdateSpeed;
         IncreaseSpeedItemPickupBehaviour.OnPlayerSpeedEvent += UpdateSpeed;
         StarItemPickupBehaviour.OnPlayerSpeedEvent += UpdateSpeed;
     }
