@@ -117,6 +117,7 @@ public class EnemiesGenerator : MonoBehaviour
             GameObject newBoss = Instantiate(boss, bossSpawn, Quaternion.identity);
             EnemyLife bossLife = newBoss.GetComponent<EnemyLife>();
             if (bossLife != null) spawnedEnemies.Add(bossLife);
+<<<<<<< HEAD
             // Camera cameraBoss = newBoss.GetComponentInChildren<Camera>(true);
             // if (cameraBoss == null)
             // {
@@ -129,6 +130,20 @@ public class EnemiesGenerator : MonoBehaviour
 
             // cameraDialogueManager.RegisterBossCamera(cameraBoss);
             // cameraDialogueManager.RefreshCamera();
+=======
+            Camera cameraBoss = newBoss.GetComponentInChildren<Camera>(true);
+            if (cameraBoss == null)
+            {
+                Debug.LogError("BOSS CAMERA NOT FOUND IN PREFAB");
+            }
+            else
+            {
+                Debug.Log("BOSS CAMERA FOUND: " + cameraBoss.name);
+            }
+
+            cameraDialogueManager.RegisterBossCamera(cameraBoss);
+            cameraDialogueManager.RefreshCamera();
+>>>>>>> a1bfba5149275e362358ab35190c0a5522c77a6a
 
         }
     }

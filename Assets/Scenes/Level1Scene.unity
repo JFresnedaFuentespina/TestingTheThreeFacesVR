@@ -724,7 +724,11 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
+<<<<<<< HEAD
   m_IsActive: 0
+=======
+  m_IsActive: 1
+>>>>>>> a1bfba5149275e362358ab35190c0a5522c77a6a
 --- !u!81 &261188803
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4806,10 +4810,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 6531257099954128290, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+=======
+>>>>>>> a1bfba5149275e362358ab35190c0a5522c77a6a
     - target: {fileID: 6776013658958853507, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -5291,7 +5298,7 @@ PrefabInstance:
     - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
       propertyPath: character
       value: 
-      objectReference: {fileID: 6204365220959823025, guid: bd6ca860eb3a9134ea748842b7eeaa56, type: 3}
+      objectReference: {fileID: 7930126595310468033, guid: e94499e9e8effe247ace11156ea23664, type: 3}
     - target: {fileID: 7507056594978238939, guid: 048330b6bb4d2b243a7a55308e02d8dd, type: 3}
       propertyPath: loadingPanel
       value: 
