@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 28e9ad0d1aaf2984cac329377862c3ce
+timeCreated: 1472052335
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 73777
+  packageName: Legacy Particle Pack
+  packageVersion: 4.0
+  assetPath: Assets/3rd Party/UnityTechnologies/ParticlePack/EffectExamples/Fire
+    & Explosion Effects/Materials/LightningParticle.mat
+  uploadId: 684565
