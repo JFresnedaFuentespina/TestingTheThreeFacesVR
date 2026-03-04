@@ -18,6 +18,7 @@ public class MinimapBehaviour : MonoBehaviour
 
     public void initMinimap(Dictionary<string, Vector3> levelRoomsDictionary, GameObject character)
     {
+        minimapPanel = GameObject.Find("Minimap");
         roomsDictionary = levelRoomsDictionary;
         characterRef = character;
 

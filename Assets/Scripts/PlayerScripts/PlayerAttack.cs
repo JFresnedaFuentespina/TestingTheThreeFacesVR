@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private ChangeCharacter changeCharacter;
-    public RadioRayo radioRayo;
+    private ChangePlayerAttack changePlayerAttack;
     public GameObject fireball;
     public GameObject thunderPrefab;
     public float attackDamage = 5f;
@@ -26,14 +25,16 @@ public class PlayerAttack : MonoBehaviour
     private AudioSource audioSource;
     private Animator animatorEsqueleto;
     private Animator animatorFantasma;
-
-    public GameObject swordGO;
     public bool appliesPoison = false;
 
     public delegate void OnAttackStatsChanged(float damage, float interval);
     public static event OnAttackStatsChanged OnAttackStatsChangedEvent;
     public delegate void OnAttackStatsRequested();
     public static event OnAttackStatsRequested OnAttackStatsRequestedEvent;
+
+    private OVRInput.Controller controller = OVRInput.Controller.RTouch; // Right-hand controller
+    private OVRInput.Button button = OVRInput.Button.PrimaryIndexTrigger; // Index trigger button
+    public Transform spawnPoint;
 
     void OnEnable()
     {
@@ -62,12 +63,11 @@ public class PlayerAttack : MonoBehaviour
             isThunder = playerData.attackType == "Thunder";
             appliesPoison = playerData.appliesPoison;
         }
-        changeCharacter = GetComponent<ChangeCharacter>();
+        changePlayerAttack = GetComponent<ChangePlayerAttack>();
         animatorEsqueleto = FindEsqueletoAnimator(transform);
         animatorFantasma = FindGhostAnimator(transform);
         MeleeAttackHit weapon = this.gameObject.GetComponentInChildren<MeleeAttackHit>();
         weapon.attackDamage = attackDamage;
-        swordGO = GameObject.Find("Sword");
     }
 
     public static void RequestAttackStats()
@@ -120,9 +120,9 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (changeCharacter != null)
+        if (changePlayerAttack != null)
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetButtonDown("Fire"))
+            if (OVRInput.GetDown(button, controller))
             {
                 TryAttack();
             }
@@ -133,14 +133,12 @@ public class PlayerAttack : MonoBehaviour
         if (Time.time < lastAttackTime + attackInterval)
             return;
         lastAttackTime = Time.time;
-        if (changeCharacter.showingGhost)
+        if (changePlayerAttack.showingGhost)
             Shoot();
-        else
-            AttackMeelee();
     }
     void Shoot()
     {
-        animatorFantasma.SetTrigger("Attack");
+        // animatorFantasma.SetTrigger("Attack");
         if (isFireball)
         {
             ShootFire();
@@ -151,47 +149,13 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-
-    private Coroutine attackCoroutine;
-
-    public void AttackMeelee()
-    {
-        swordGO.GetComponent<BoxCollider>().enabled = true;
-        if (animatorEsqueleto == null) return;
-        if (isAttacking) return;
-
-        isAttacking = true;
-
-        animatorEsqueleto.applyRootMotion = false;
-        animatorEsqueleto.ResetTrigger("Attack");
-        animatorEsqueleto.SetTrigger("Attack");
-
-        attackCoroutine = StartCoroutine(AttackRoutine());
-    }
-    private IEnumerator AttackRoutine()
-    {
-        yield return new WaitForSeconds(0.1f);
-        swordGO.GetComponent<BoxCollider>().enabled = true;
-
-        yield return new WaitForSeconds(0.2f);
-        audioSource.PlayOneShot(swordSwingAudioClip);
-
-        yield return new WaitForSeconds(0.5f);
-        swordGO.GetComponent<BoxCollider>().enabled = false;
-
-        yield return new WaitForSeconds(0.3f);
-        isAttacking = false;
-    }
-
     void ShootFire()
     {
         audioSource.PlayOneShot(fireballAudioClip);
         isThunder = false;
-        Vector3 direction = transform.forward;
-        Vector3 spawnPos = transform.position + Vector3.up * spawnHeight;
+        Vector3 direction = spawnPoint.forward;
 
-        GameObject newFireball = Instantiate(fireball, spawnPos, Quaternion.LookRotation(direction));
-
+        GameObject newFireball = Instantiate(fireball, spawnPoint.position, Quaternion.LookRotation(direction));
         // Asignar la dirección al script del proyectil
         FireballBehaviour fbMove = newFireball.GetComponent<FireballBehaviour>();
         if (fbMove != null)
@@ -205,36 +169,9 @@ public class PlayerAttack : MonoBehaviour
     {
         isFireball = false;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Vector3 origin = transform.position;
-
-        Vector3 targetPoint;
-
-        if (Physics.Raycast(ray, out RaycastHit mouseHit))
-        {
-            Vector3 clickPoint = mouseHit.point;
-
-            float distance = Vector3.Distance(origin, clickPoint);
-
-            if (distance <= attackRange)
-            {
-                targetPoint = clickPoint;
-            }
-            else
-            {
-                // Limitar al rango máximo
-                Vector3 direction = (clickPoint - origin).normalized;
-                targetPoint = origin + direction * attackRange;
-            }
-        }
-        else
-        {
-            // Si no golpea nada, usar rango máximo hacia delante
-            targetPoint = origin + transform.forward * attackRange;
-        }
-
-        // Forzar altura del rayo
-        Vector3 spawnPos = new Vector3(targetPoint.x, thunderSpawnY, targetPoint.z);
+        Vector3 direction = spawnPoint.forward;
+        Vector3 spawnPos = transform.position + direction * attackRange;
+        spawnPos.y = thunderSpawnY; // forzar la altura exacta
 
         GameObject newThunder = Instantiate(
             thunderPrefab,
@@ -242,12 +179,9 @@ public class PlayerAttack : MonoBehaviour
             Quaternion.identity
         );
 
-        // Raycast hacia abajo para aplicar daño
-        if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hitInfo, 50f))
+        if (Physics.Raycast(spawnPos, Vector3.down, out RaycastHit hitInfo, 20f))
         {
-            if (hitInfo.collider.tag.Contains("Boss") ||
-                hitInfo.collider.CompareTag("Enemy_Zombie") ||
-                hitInfo.collider.CompareTag("Enemy_Ghost"))
+            if (hitInfo.collider.tag.Contains("Boss") || hitInfo.collider.CompareTag("Enemy_Zombie") || hitInfo.collider.CompareTag("Enemy_Ghost"))
             {
                 EnemyLife enemyLife = hitInfo.collider.GetComponent<EnemyLife>();
                 if (enemyLife != null)
@@ -260,7 +194,6 @@ public class PlayerAttack : MonoBehaviour
 
         Destroy(newThunder, thunderLifeTime);
     }
-
 
     public void DecideChanges(string item)
     {
@@ -292,7 +225,6 @@ public class PlayerAttack : MonoBehaviour
         isFireball = false;
         isThunder = true;
         attackDamage += 2f;
-        radioRayo.isThunderActive = true;
         NotifyAttackStatsChanged();
     }
 

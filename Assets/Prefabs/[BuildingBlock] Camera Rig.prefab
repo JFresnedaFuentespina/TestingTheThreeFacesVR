@@ -7832,7 +7832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b83ea2ac504fc4db43204796ea29a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  radioRayo: {fileID: 0}
   fireball: {fileID: 7251879486380165639, guid: c2f6a8962aac3814aa56cb9647c93470, type: 3}
   thunderPrefab: {fileID: 3300406336262876018, guid: 67544146273a40e48cb7167c545418e6, type: 3}
   attackDamage: 5
@@ -7845,8 +7844,8 @@ MonoBehaviour:
   isThunder: 0
   swordSwingAudioClip: {fileID: 0}
   fireballAudioClip: {fileID: 8300000, guid: d8c9f6964b00f354ea48560606339ed6, type: 3}
-  swordGO: {fileID: 0}
   appliesPoison: 0
+  spawnPoint: {fileID: 8258678299507928775}
 --- !u!114 &6217347828675364492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11409,11 +11408,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11433,23 +11432,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 993.047
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11498,6 +11497,14 @@ PrefabInstance:
     - target: {fileID: 6531257099954128286, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531257099954128287, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531257099954128288, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6531257099954128290, guid: 519c87607748a6648b3d503d073a62b1, type: 3}
       propertyPath: m_Name
@@ -12287,7 +12294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b83ea2ac504fc4db43204796ea29a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  radioRayo: {fileID: 0}
   fireball: {fileID: 7251879486380165639, guid: c2f6a8962aac3814aa56cb9647c93470, type: 3}
   thunderPrefab: {fileID: 3300406336262876018, guid: 67544146273a40e48cb7167c545418e6, type: 3}
   attackDamage: 5
@@ -12300,8 +12306,8 @@ MonoBehaviour:
   isThunder: 1
   swordSwingAudioClip: {fileID: 0}
   fireballAudioClip: {fileID: 0}
-  swordGO: {fileID: 0}
   appliesPoison: 0
+  spawnPoint: {fileID: 0}
 --- !u!114 &6066865803122976438
 MonoBehaviour:
   m_ObjectHideFlags: 0

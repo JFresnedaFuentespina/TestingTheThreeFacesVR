@@ -19,8 +19,8 @@ public class LoadLevel1 : MonoBehaviour
             Application.streamingAssetsPath,
             "TheThreeFacesLoreVideo.mp4"
         );
-        playButton.onClick.AddListener(ShowLoreVideo);
-        videoPlayer.loopPointReached += OnVideoEnd;
+        playButton.onClick.AddListener(GoToLevel1);
+        // videoPlayer.loopPointReached += OnVideoEnd;
     }
 
     void Update()
@@ -34,6 +34,12 @@ public class LoadLevel1 : MonoBehaviour
     public void ShowLoreVideo()
     {
         StartCoroutine(PrepareAndPlay());
+    }
+
+    public void GoToLevel1()
+    {
+        
+        SceneManager.LoadScene("Level1Scene");
     }
 
     private IEnumerator PrepareAndPlay()
