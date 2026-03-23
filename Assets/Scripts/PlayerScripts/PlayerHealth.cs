@@ -178,7 +178,8 @@ public class PlayerHealth : MonoBehaviour
             col.enabled = false;
 
         // ⬇️ NO mostramos el panel aún
-        StartCoroutine(WaitAndShowEndgame());
+        // StartCoroutine(WaitAndShowEndgame());
+        SceneManager.LoadScene("MainMenu");
     }
 
     private IEnumerator WaitAndShowEndgame()
@@ -192,12 +193,13 @@ public class PlayerHealth : MonoBehaviour
 
         yield return new WaitForSeconds(animDuration + 2f);
 
-        endgameManager = endgameManagerGO.GetComponent<EndgameManager>();
-        if (endgameManager != null)
-        {
-            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
-            endgameManager.ShowEndgameDeath(lastHittedBy, playerInventory.inventory);
-        }
+        // endgameManager = endgameManagerGO.GetComponent<EndgameManager>();
+        // if (endgameManager != null)
+        // {
+        //     PlayerInventory playerInventory = GetComponent<PlayerInventory>();
+        //     endgameManager.ShowEndgameDeath(lastHittedBy, playerInventory.inventory);
+        // }
+        
     }
 
     public void BlockPlayerControl()
