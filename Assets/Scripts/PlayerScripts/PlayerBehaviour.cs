@@ -72,7 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             PlayerData playerData = JsonConvert.DeserializeObject<PlayerData>(json);
-            velocity = playerData.velocity;
+            // velocity = playerData.velocity;
         }
 
         rb = GetComponent<Rigidbody>();

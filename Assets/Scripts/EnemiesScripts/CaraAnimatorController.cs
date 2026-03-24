@@ -7,7 +7,7 @@ public class CaraAnimatorController : MonoBehaviour
     private Animator animator;
     private EnemyMove enemyMove;
 
-    private CaraDialogueManager caraDialogueManager;
+    // private CaraDialogueManager caraDialogueManager;
 
     private bool hasJumped = false;       // indica si está actualmente en el aire
     private bool wasInAir = false;        // para detectar aterrizaje real
@@ -16,7 +16,7 @@ public class CaraAnimatorController : MonoBehaviour
 
     void Start()
     {
-        caraDialogueManager = GetComponent<CaraDialogueManager>();
+        // caraDialogueManager = GetComponent<CaraDialogueManager>();
         animator = GetComponent<Animator>();
         enemyMove = GetComponent<EnemyMove>();
         animator.applyRootMotion = false;
@@ -114,7 +114,7 @@ public class CaraAnimatorController : MonoBehaviour
     public void ReactToDeath()
     {
         enemyMove.isAlive = false;
-        caraDialogueManager.ShowDeathDialog();
+        // caraDialogueManager.ShowDeathDialog();
         animator.SetTrigger("Death");
     }
 

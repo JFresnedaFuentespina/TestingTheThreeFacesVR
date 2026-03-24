@@ -34,6 +34,7 @@ TagManager:
   - Hourglass
   - Trophy
   - Weapon
+  - Thunderbolt
   layers:
   - Default
   - TransparentFX

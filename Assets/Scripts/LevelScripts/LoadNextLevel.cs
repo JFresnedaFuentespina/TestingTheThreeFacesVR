@@ -44,8 +44,8 @@ public class LoadNextLevel : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
         RemoveKeyFromPlayer();
-        SavePlayerStats(other.gameObject);
-        StartCoroutine(PreTransitionFade());
+        SavePlayerStats();
+        // StartCoroutine(PreTransitionFade());
     }
 
     public void RemoveKeyFromPlayer()
@@ -111,11 +111,12 @@ public class LoadNextLevel : MonoBehaviour
                 return;
         }
 
-        StartCoroutine(LoadSceneWithFade(nextScene));
+        // StartCoroutine(LoadSceneWithFade(nextScene));
+        SceneManager.LoadScene(nextScene);
     }
 
     private IEnumerator LoadSceneWithFade(string sceneName)
-    {  
+    {
         Debug.Log("Cargando escena: " + sceneName);
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
@@ -150,18 +151,34 @@ public class LoadNextLevel : MonoBehaviour
         fadeImage.color = new Color(c.r, c.g, c.b, to);
     }
 
-    public void SavePlayerStats(GameObject playerGO)
+    public void SavePlayerStats()
     {
-        var data = new PlayerData();
-        GameObject player = playerGO.transform.root.gameObject;
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "Level3Scene") NextLevel();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player == null)
+        {
+            Debug.LogError("Player no encontrado por tag");
+            return;
+        }
+
         var atk = player.GetComponent<PlayerAttack>();
-        var bh = player.GetComponent<PlayerBehaviour>();
         var hp = player.GetComponent<PlayerHealth>();
-        var changeCharacter = player.GetComponent<ChangeCharacter>();
+        var changeCharacter = player.GetComponent<ChangePlayerAttack>();
+
+        if (atk == null || hp == null || changeCharacter == null)
+        {
+            Debug.LogError("Faltan componentes en el player");
+            return;
+        }
+
+        var data = new PlayerData();
 
         float enemiesDeathCounterFloat = 0f;
 
-        EnemiesDeathCounter enemiesDeathCounter = GameObject.Find("EnemiesDeathCounterGO").GetComponent<EnemiesDeathCounter>();
+        EnemiesDeathCounter enemiesDeathCounter = GameObject.Find("EnemiesDeathCounterGO")?.GetComponent<EnemiesDeathCounter>();
         if (enemiesDeathCounter != null)
         {
             enemiesDeathCounterFloat = enemiesDeathCounter.counter;
@@ -170,7 +187,6 @@ public class LoadNextLevel : MonoBehaviour
         data.maxHealth = hp.maxHealth;
         data.health = hp.healthPoints;
         data.extraHealth = hp.extraHealthPoints;
-        data.velocity = bh.velocity;
         data.damage = atk.attackDamage;
         data.attackInterval = atk.attackInterval;
         data.attackRange = atk.attackRange;
@@ -183,6 +199,7 @@ public class LoadNextLevel : MonoBehaviour
         string path = Application.persistentDataPath + "/player.json";
         File.WriteAllText(path, json);
 
+        NextLevel();
     }
 
 }

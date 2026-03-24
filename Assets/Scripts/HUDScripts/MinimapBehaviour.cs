@@ -12,21 +12,21 @@ public class MinimapBehaviour : MonoBehaviour
     private Dictionary<string, GameObject> minimapIcons = new Dictionary<string, GameObject>();
 
     private GameObject playerIcon;
-    private GameObject characterRef;
 
-    private float mapScale = 1.5f;
+    private float mapScale;
 
     public void initMinimap(Dictionary<string, Vector3> levelRoomsDictionary, GameObject character)
     {
         minimapPanel = GameObject.Find("Minimap");
         roomsDictionary = levelRoomsDictionary;
-        characterRef = character;
+
+        mapScale = CalculateDynamicScale();
 
         GenerateMinimapIcons();
-        GeneratePlayerIcon(character);
+        GeneratePlayerIcon();
     }
 
-    private void GeneratePlayerIcon(GameObject character)
+    private void GeneratePlayerIcon()
     {
         if (playerIconPrefab == null)
         {
@@ -36,6 +36,15 @@ public class MinimapBehaviour : MonoBehaviour
 
         playerIcon = Instantiate(playerIconPrefab, minimapPanel.transform);
         playerIcon.name = "PlayerIcon";
+
+        RectTransform rt = playerIcon.GetComponent<RectTransform>();
+
+        float iconSize = GetIconSize();
+
+        rt.localScale = Vector3.one;
+
+        float aspect = 170f / 100f;
+        rt.sizeDelta = new Vector2(iconSize * aspect, iconSize);
     }
 
     public void MovePlayerToRoom(string roomName)
@@ -48,14 +57,15 @@ public class MinimapBehaviour : MonoBehaviour
         }
 
         Vector2 minimapPos = WorldToMinimap(roomsDictionary[key]);
+
         if (playerIcon != null)
             playerIcon.GetComponent<RectTransform>().anchoredPosition = minimapPos;
     }
 
-
-
     private void GenerateMinimapIcons()
     {
+        float iconSize = GetIconSize();
+
         foreach (KeyValuePair<string, Vector3> room in roomsDictionary)
         {
             Vector2 minimapPos = WorldToMinimap(room.Value);
@@ -63,10 +73,21 @@ public class MinimapBehaviour : MonoBehaviour
 
             RectTransform rt = icon.GetComponent<RectTransform>();
             rt.anchoredPosition = minimapPos;
+            rt.sizeDelta = new Vector2(iconSize, iconSize);
 
             icon.name = "MinimapIcon_" + room.Key;
             minimapIcons.Add(room.Key, icon);
         }
+    }
+
+    private float GetIconSize()
+    {
+        int roomCount = roomsDictionary.Count;
+
+        // Tamaño basado en número de habitaciones, no en escala
+        float size = 30f - roomCount * 0.5f;
+
+        return Mathf.Clamp(size, 14f, 30f);
     }
 
     private Vector2 WorldToMinimap(Vector3 worldPos)
@@ -74,10 +95,8 @@ public class MinimapBehaviour : MonoBehaviour
         Vector3 firstRoom = roomsDictionary["Room_0"];
         Vector3 offset = worldPos - firstRoom;
 
-        // Escalar con mapScale
         Vector2 pos = new Vector2(offset.x * mapScale, offset.z * mapScale);
 
-        // Limitar para que no se salga del panel
         RectTransform panelRect = minimapPanel.GetComponent<RectTransform>();
         float halfWidth = panelRect.rect.width / 2f;
         float halfHeight = panelRect.rect.height / 2f;
@@ -88,5 +107,32 @@ public class MinimapBehaviour : MonoBehaviour
         return pos;
     }
 
+    private float CalculateDynamicScale()
+    {
+        if (roomsDictionary.Count == 0)
+            return 1f;
 
+        float minX = roomsDictionary.Values.Min(v => v.x);
+        float maxX = roomsDictionary.Values.Max(v => v.x);
+        float minZ = roomsDictionary.Values.Min(v => v.z);
+        float maxZ = roomsDictionary.Values.Max(v => v.z);
+
+        float worldWidth = maxX - minX;
+        float worldHeight = maxZ - minZ;
+
+        RectTransform panelRect = minimapPanel.GetComponent<RectTransform>();
+
+        float panelWidth = panelRect.rect.width;
+        float panelHeight = panelRect.rect.height;
+
+        float padding = 40f;
+
+        float scaleX = (panelWidth - padding) / worldWidth;
+        float scaleY = (panelHeight - padding) / worldHeight;
+
+        float finalScale = Mathf.Min(scaleX, scaleY);
+
+        // Evita escalas ridículamente pequeñas
+        return Mathf.Clamp(finalScale, 0.05f, 2f);
+    }
 }

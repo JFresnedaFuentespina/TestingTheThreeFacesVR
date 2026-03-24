@@ -18,7 +18,7 @@ public class CruzMovement : MonoBehaviour
     private NavMeshAgent agent;
     private CruzAnimatorController cruzAI;
     private Animator animator;
-    private CruzDialogManager dialogManager;
+    // private CruzDialogManager dialogManager;
     private EnemyLife enemyLife;
 
     private bool isWalking = false;
@@ -32,7 +32,7 @@ public class CruzMovement : MonoBehaviour
     void Start()
     {
         enemyLife = GetComponent<EnemyLife>();
-        dialogManager = GetComponent<CruzDialogManager>();
+        // dialogManager = GetComponent<CruzDialogManager>();
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = 0f;
@@ -72,7 +72,7 @@ public class CruzMovement : MonoBehaviour
         if (enemyLife.currentHp <= 0f)
         {
             cruzAI.SetDeath();
-            dialogManager.ShowDeathDialog();
+            // dialogManager.ShowDeathDialog();
             enabled = false;
         }
     }
