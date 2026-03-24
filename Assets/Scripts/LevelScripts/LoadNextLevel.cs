@@ -95,16 +95,17 @@ public class LoadNextLevel : MonoBehaviour
                 nextScene = "Level3Scene";
                 break;
             case "Level3Scene":
-                GoToBadEnding badEnding = GetComponent<GoToBadEnding>();
-                if (badEnding != null)
-                {
-                    nextScene = "BadEndingScene";
-                }
-                GoToGoodEnding goodEnding = GetComponent<GoToGoodEnding>();
-                if (goodEnding != null)
-                {
-                    nextScene = "GoodEndingScene";
-                }
+                // GoToBadEnding badEnding = GetComponent<GoToBadEnding>();
+                // if (badEnding != null)
+                // {
+                //     nextScene = "BadEndingScene";
+                // }
+                // GoToGoodEnding goodEnding = GetComponent<GoToGoodEnding>();
+                // if (goodEnding != null)
+                // {
+                //     nextScene = "GoodEndingScene";
+                // }
+                nextScene = "MainMenu";
                 break;
             default:
                 return;
